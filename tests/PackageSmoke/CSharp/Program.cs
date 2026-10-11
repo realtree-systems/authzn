@@ -1,8 +1,8 @@
 using System.Reflection;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 
-// Installs Authzn.CSharp from the packed packages, which brings Authzn and its FSharp.Core floor
+// Installs RealTree.Authzn.CSharp from the packed packages, which brings RealTree.Authzn and its FSharp.Core floor
 // transitively, and checks one allowed and one denied decision through the DI registration.
 var provider = new ServiceCollection()
     .AddAuthzn(builder => builder
@@ -20,9 +20,9 @@ string VersionOf(string assembly) =>
 
 if (inTenant is not AuthorizationDecision.Allowed || otherTenant is not AuthorizationDecision.Denied { Reason: DenyReason.ScopeMismatch })
 {
-    Console.Error.WriteLine($"Authzn.CSharp smoke test failed: acme -> {inTenant}, globex -> {otherTenant}");
+    Console.Error.WriteLine($"RealTree.Authzn.CSharp smoke test failed: acme -> {inTenant}, globex -> {otherTenant}");
     return 1;
 }
 
-Console.WriteLine($"Authzn.CSharp smoke test passed: Authzn.CSharp {VersionOf("Authzn.CSharp")}, FSharp.Core {VersionOf("FSharp.Core")}");
+Console.WriteLine($"RealTree.Authzn.CSharp smoke test passed: RealTree.Authzn.CSharp {VersionOf("RealTree.Authzn.CSharp")}, FSharp.Core {VersionOf("FSharp.Core")}");
 return 0;

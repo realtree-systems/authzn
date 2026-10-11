@@ -1,9 +1,9 @@
-module Authzn.Tests.GrantsAmongTests
+module RealTree.Authzn.Tests.GrantsAmongTests
 
 open System.Threading
 open Xunit
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 let private grant permission scope condition =
     { Permission = PermissionPattern.parse permission

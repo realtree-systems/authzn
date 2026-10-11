@@ -1,4 +1,4 @@
-namespace Authzn
+namespace RealTree.Authzn
 
 open System
 open System.Threading

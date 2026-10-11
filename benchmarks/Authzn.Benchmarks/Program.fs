@@ -1,4 +1,4 @@
-module Authzn.Benchmarks.Program
+module RealTree.Authzn.Benchmarks.Program
 
 open BenchmarkDotNet.Running
 

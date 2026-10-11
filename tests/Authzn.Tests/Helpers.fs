@@ -1,8 +1,8 @@
-module Authzn.Tests.Helpers
+module RealTree.Authzn.Tests.Helpers
 
 open System
 open System.Threading.Tasks
-open Authzn
+open RealTree.Authzn
 
 let testPrincipal = PrincipalId "user-1"
 let otherPrincipal = PrincipalId "user-2"

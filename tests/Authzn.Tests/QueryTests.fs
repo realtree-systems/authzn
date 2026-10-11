@@ -1,11 +1,11 @@
-module Authzn.Tests.QueryTests
+module RealTree.Authzn.Tests.QueryTests
 
 open System
 open System.Threading
 open System.Threading.Tasks
 open Xunit
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 // Both resolvers below admit "t1" for the principal marker on key "tenant", and the orgs in this
 // set for the hierarchy marker.

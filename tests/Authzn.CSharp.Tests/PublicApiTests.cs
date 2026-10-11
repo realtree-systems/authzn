@@ -7,21 +7,21 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Xunit;
 
-namespace Authzn.CSharp.Tests;
+namespace RealTree.Authzn.CSharp.Tests;
 
 /// <summary>
-/// Compares the public surface of Authzn and Authzn.CSharp with the approved listings in
+/// Compares the public surface of RealTree.Authzn and RealTree.Authzn.CSharp with the approved listings in
 /// <c>api/</c>. A change to a public or protected type or member fails here until the listing is
 /// updated, so every API change shows up in review as a diff of <c>api/*.txt</c>.
 /// </summary>
 public class PublicApiTests
 {
     [Theory]
-    [InlineData("Authzn")]
-    [InlineData("Authzn.CSharp")]
+    [InlineData("RealTree.Authzn")]
+    [InlineData("RealTree.Authzn.CSharp")]
     public void Public_api_matches_the_approved_listing(string assemblyName)
     {
-        var assembly = assemblyName == "Authzn" ? typeof(global::Authzn.PermissionId).Assembly : typeof(Authorizer).Assembly;
+        var assembly = assemblyName == "RealTree.Authzn" ? typeof(global::RealTree.Authzn.PermissionId).Assembly : typeof(Authorizer).Assembly;
         var actual = PublicApi.Describe(assembly);
 
         var approvedPath = Path.Combine(RepositoryRoot(), "api", assemblyName + ".txt");

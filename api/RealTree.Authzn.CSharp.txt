@@ -1,0 +1,500 @@
+sealed class RealTree.Authzn.CSharp.Assignment
+  property public DateTimeOffset? NotAfter { get; }
+  property public DateTimeOffset? NotBefore { get; }
+  property public RealTree.Authzn.CSharp.PrincipalRef Principal { get; }
+  property public RealTree.Authzn.CSharp.RoleRef Role { get; }
+  property public bool Revoked { get; }
+  method public RealTree.Authzn.CSharp.Assignment AsRevoked()
+  method public bool IsActiveAt(DateTimeOffset at)
+  method public static RealTree.Authzn.CSharp.Assignment Create(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.RoleRef role)
+  method public static RealTree.Authzn.CSharp.Assignment ForWindow(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.RoleRef role, DateTimeOffset? notBefore = null, DateTimeOffset? notAfter = null)
+
+abstract class RealTree.Authzn.CSharp.AssignmentStore : RealTree.Authzn.IAssignmentStore
+  ctor protected()
+  method public abstract Task<IReadOnlyList<RealTree.Authzn.CSharp.Assignment>> GetAssignmentsForPrincipalAsync(RealTree.Authzn.CSharp.PrincipalRef principal, CancellationToken cancellationToken)
+
+sealed class RealTree.Authzn.CSharp.AuthorizationBuilder
+  ctor public()
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder AddRole(RealTree.Authzn.CSharp.Role role)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder AddRole(string id, string name, Action<RealTree.Authzn.CSharp.RoleBuilder> configure)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder Assign(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.RoleRef role)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder AssignForWindow(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.RoleRef role, DateTimeOffset? notBefore = null, DateTimeOffset? notAfter = null)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder Revoke(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.RoleRef role)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder UseAssignmentStore(RealTree.Authzn.CSharp.AssignmentStore store)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder UseRoleStore(RealTree.Authzn.CSharp.RoleStore store)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder UseScopeResolver(RealTree.Authzn.CSharp.ScopeValueResolver resolver)
+  method public RealTree.Authzn.CSharp.AuthorizationBuilder UseTimeProvider(TimeProvider timeProvider)
+  method public RealTree.Authzn.CSharp.Authorizer Build()
+
+abstract class RealTree.Authzn.CSharp.AuthorizationDecision : IEquatable<RealTree.Authzn.CSharp.AuthorizationDecision>
+  ctor protected(RealTree.Authzn.CSharp.AuthorizationDecision original)
+  property protected virtual Type EqualityContract { get; }
+  property public bool IsAllowed { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract RealTree.Authzn.CSharp.AuthorizationDecision <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(RealTree.Authzn.CSharp.AuthorizationDecision? left, RealTree.Authzn.CSharp.AuthorizationDecision? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.AuthorizationDecision? left, RealTree.Authzn.CSharp.AuthorizationDecision? right)
+  method public virtual bool Equals(RealTree.Authzn.CSharp.AuthorizationDecision? other)
+
+sealed class RealTree.Authzn.CSharp.AuthorizationDecision.Allowed : RealTree.Authzn.CSharp.AuthorizationDecision, IEquatable<RealTree.Authzn.CSharp.AuthorizationDecision.Allowed>, IEquatable<RealTree.Authzn.CSharp.AuthorizationDecision>
+  ctor public(RealTree.Authzn.CSharp.RoleRef Role, RealTree.Authzn.CSharp.PermissionPattern Permission)
+  property protected override Type EqualityContract { get; }
+  property public RealTree.Authzn.CSharp.PermissionPattern Permission { get; init; }
+  property public RealTree.Authzn.CSharp.RoleRef Role { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.AuthorizationDecision.Allowed? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.AuthorizationDecision? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.AuthorizationDecision.Allowed? left, RealTree.Authzn.CSharp.AuthorizationDecision.Allowed? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.AuthorizationDecision.Allowed? left, RealTree.Authzn.CSharp.AuthorizationDecision.Allowed? right)
+  method public virtual RealTree.Authzn.CSharp.AuthorizationDecision.Allowed <Clone>$()
+  method public void Deconstruct(out RealTree.Authzn.CSharp.RoleRef Role, out RealTree.Authzn.CSharp.PermissionPattern Permission)
+
+sealed class RealTree.Authzn.CSharp.AuthorizationDecision.Denied : RealTree.Authzn.CSharp.AuthorizationDecision, IEquatable<RealTree.Authzn.CSharp.AuthorizationDecision.Denied>, IEquatable<RealTree.Authzn.CSharp.AuthorizationDecision>
+  ctor public(RealTree.Authzn.CSharp.DenyReason Reason)
+  property protected override Type EqualityContract { get; }
+  property public RealTree.Authzn.CSharp.DenyReason Reason { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.AuthorizationDecision.Denied? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.AuthorizationDecision? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.AuthorizationDecision.Denied? left, RealTree.Authzn.CSharp.AuthorizationDecision.Denied? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.AuthorizationDecision.Denied? left, RealTree.Authzn.CSharp.AuthorizationDecision.Denied? right)
+  method public virtual RealTree.Authzn.CSharp.AuthorizationDecision.Denied <Clone>$()
+  method public void Deconstruct(out RealTree.Authzn.CSharp.DenyReason Reason)
+
+sealed class RealTree.Authzn.CSharp.AuthorizationRequest
+  ctor public(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.Permission permission, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null)
+  property public IReadOnlyDictionary<string, object> Attributes { get; }
+  property public IReadOnlyDictionary<string, string> Scope { get; }
+  property public RealTree.Authzn.CSharp.Permission Permission { get; }
+  property public RealTree.Authzn.CSharp.PrincipalRef Principal { get; }
+  method public RealTree.Authzn.CSharp.AuthorizationRequest WithAttributes(IReadOnlyDictionary<string, object> attributes)
+  method public RealTree.Authzn.CSharp.AuthorizationRequest WithScope(IReadOnlyDictionary<string, string> scope)
+
+sealed class RealTree.Authzn.CSharp.Authorizer
+  method public Task<IReadOnlyDictionary<string, IReadOnlyList<RealTree.Authzn.CSharp.GrantSource>>> GrantsAmongAsync(RealTree.Authzn.CSharp.PrincipalRef principal, IEnumerable<string> permissions, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null, CancellationToken cancellationToken = default)
+  method public Task<IReadOnlyList<T>> FilterAsync<T>(RealTree.Authzn.CSharp.PrincipalRef principal, string permission, IEnumerable<T> candidates, Func<T, IReadOnlyDictionary<string, string>> scopeOf, Func<T, IReadOnlyDictionary<string, object>>? attributesOf = null, CancellationToken cancellationToken = default)
+  method public Task<IReadOnlySet<string>> AllowedAmongAsync(RealTree.Authzn.CSharp.PrincipalRef principal, IEnumerable<string> permissions, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null, CancellationToken cancellationToken = default)
+  method public Task<RealTree.Authzn.CSharp.AuthorizationDecision> AuthorizeAsync(RealTree.Authzn.CSharp.AuthorizationRequest request, CancellationToken cancellationToken = default)
+  method public Task<RealTree.Authzn.CSharp.AuthorizationDecision> AuthorizeAsync(RealTree.Authzn.CSharp.PrincipalRef principal, string permission, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null, CancellationToken cancellationToken = default)
+  method public Task<RealTree.Authzn.CSharp.ScopeConstraint> VisibleScopeAsync(RealTree.Authzn.CSharp.PrincipalRef principal, string permission, IReadOnlyDictionary<string, string>? partialScope = null, CancellationToken cancellationToken = default)
+  method public Task<bool> MayAnyAsync(RealTree.Authzn.CSharp.PrincipalRef principal, string permission, IReadOnlyDictionary<string, string>? partialScope = null, CancellationToken cancellationToken = default)
+  method public void AddAssignment(RealTree.Authzn.CSharp.Assignment assignment)
+  method public void AddRole(RealTree.Authzn.CSharp.Role role)
+  method public void AddRole(string id, string name, Action<RealTree.Authzn.CSharp.RoleBuilder> configure)
+  method public void ReinstateGrant(RealTree.Authzn.CSharp.RoleRef role, RealTree.Authzn.CSharp.GrantRef grant)
+  method public void Revoke(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.RoleRef role)
+  method public void RevokeGrant(RealTree.Authzn.CSharp.RoleRef role, RealTree.Authzn.CSharp.GrantRef grant, RealTree.Authzn.CSharp.PrincipalRef revokedBy)
+
+sealed class RealTree.Authzn.CSharp.DelegateScopeResolver : RealTree.Authzn.CSharp.ScopeValueResolver, RealTree.Authzn.IScopeValueEnumerator, RealTree.Authzn.IScopeValueResolver
+  ctor public(Func<RealTree.Authzn.CSharp.PrincipalRef, string, string, string, bool> admits)
+  method public override ValueTask<bool> AdmitsAsync(RealTree.Authzn.CSharp.PrincipalRef principal, string scopeKey, string marker, string requestValue, CancellationToken cancellationToken)
+
+enum RealTree.Authzn.CSharp.DenyReason : IComparable, IConvertible, IFormattable, ISpanFormattable
+  NoAssignments = 1
+  NoMatchingPermission = 2
+  ScopeMismatch = 3
+  AssignmentNotActive = 4
+  GrantNotActive = 5
+  AttributeEvaluationFailed = 6
+
+sealed class RealTree.Authzn.CSharp.GrantMetadata : IEquatable<RealTree.Authzn.CSharp.GrantMetadata>
+  ctor public()
+  property public DateTimeOffset? ConsentedAt { get; init; }
+  property public DateTimeOffset? ExpiresAt { get; init; }
+  property public DateTimeOffset? RevokedAt { get; init; }
+  property public RealTree.Authzn.CSharp.PrincipalRef? ConsentedBy { get; init; }
+  property public RealTree.Authzn.CSharp.PrincipalRef? RevokedBy { get; init; }
+  property public static RealTree.Authzn.CSharp.GrantMetadata Empty { get; }
+  property public string? Reason { get; init; }
+  property public string? Source { get; init; }
+  method public RealTree.Authzn.CSharp.GrantMetadata <Clone>$()
+  method public bool Equals(RealTree.Authzn.CSharp.GrantMetadata? other)
+  method public bool IsActiveAt(DateTimeOffset at)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(RealTree.Authzn.CSharp.GrantMetadata? left, RealTree.Authzn.CSharp.GrantMetadata? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.GrantMetadata? left, RealTree.Authzn.CSharp.GrantMetadata? right)
+
+abstract class RealTree.Authzn.CSharp.GrantPolicy : RealTree.Authzn.IGrantPolicy
+  ctor protected()
+  method public abstract Task<RealTree.Authzn.CSharp.GrantPolicyDecision> EvaluateAsync(RealTree.Authzn.CSharp.GrantPolicyContext context, CancellationToken cancellationToken)
+
+sealed class RealTree.Authzn.CSharp.GrantPolicyChain
+  ctor public(IEnumerable<RealTree.Authzn.CSharp.GrantPolicy> policies)
+  method public Task<RealTree.Authzn.CSharp.GrantPolicyDecision> EvaluateAsync(RealTree.Authzn.CSharp.GrantPolicyContext context, CancellationToken cancellationToken = default)
+
+sealed class RealTree.Authzn.CSharp.GrantPolicyContext
+  ctor public(RealTree.Authzn.CSharp.PrincipalRef principal, RealTree.Authzn.CSharp.RoleRef role, RealTree.Authzn.CSharp.PermissionGrant grant, IReadOnlyDictionary<string, string>? properties = null)
+  property public IReadOnlyDictionary<string, string> Properties { get; }
+  property public RealTree.Authzn.CSharp.PermissionGrant Grant { get; }
+  property public RealTree.Authzn.CSharp.PrincipalRef Principal { get; }
+  property public RealTree.Authzn.CSharp.RoleRef Role { get; }
+
+abstract class RealTree.Authzn.CSharp.GrantPolicyDecision : IEquatable<RealTree.Authzn.CSharp.GrantPolicyDecision>
+  ctor protected(RealTree.Authzn.CSharp.GrantPolicyDecision original)
+  property protected virtual Type EqualityContract { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract RealTree.Authzn.CSharp.GrantPolicyDecision <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(RealTree.Authzn.CSharp.GrantPolicyDecision? left, RealTree.Authzn.CSharp.GrantPolicyDecision? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.GrantPolicyDecision? left, RealTree.Authzn.CSharp.GrantPolicyDecision? right)
+  method public virtual bool Equals(RealTree.Authzn.CSharp.GrantPolicyDecision? other)
+
+sealed class RealTree.Authzn.CSharp.GrantPolicyDecision.Allow : RealTree.Authzn.CSharp.GrantPolicyDecision, IEquatable<RealTree.Authzn.CSharp.GrantPolicyDecision.Allow>, IEquatable<RealTree.Authzn.CSharp.GrantPolicyDecision>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.GrantPolicyDecision.Allow? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.GrantPolicyDecision? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.GrantPolicyDecision.Allow? left, RealTree.Authzn.CSharp.GrantPolicyDecision.Allow? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.GrantPolicyDecision.Allow? left, RealTree.Authzn.CSharp.GrantPolicyDecision.Allow? right)
+  method public virtual RealTree.Authzn.CSharp.GrantPolicyDecision.Allow <Clone>$()
+
+sealed class RealTree.Authzn.CSharp.GrantPolicyDecision.Reject : RealTree.Authzn.CSharp.GrantPolicyDecision, IEquatable<RealTree.Authzn.CSharp.GrantPolicyDecision.Reject>, IEquatable<RealTree.Authzn.CSharp.GrantPolicyDecision>
+  ctor public(string Reason, string Code)
+  property protected override Type EqualityContract { get; }
+  property public string Code { get; init; }
+  property public string Reason { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.GrantPolicyDecision.Reject? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.GrantPolicyDecision? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.GrantPolicyDecision.Reject? left, RealTree.Authzn.CSharp.GrantPolicyDecision.Reject? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.GrantPolicyDecision.Reject? left, RealTree.Authzn.CSharp.GrantPolicyDecision.Reject? right)
+  method public virtual RealTree.Authzn.CSharp.GrantPolicyDecision.Reject <Clone>$()
+  method public void Deconstruct(out string Reason, out string Code)
+
+sealed class RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent : RealTree.Authzn.CSharp.GrantPolicyDecision, IEquatable<RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent>, IEquatable<RealTree.Authzn.CSharp.GrantPolicyDecision>
+  ctor public(string Reason, string Tier)
+  property protected override Type EqualityContract { get; }
+  property public string Reason { get; init; }
+  property public string Tier { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.GrantPolicyDecision? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent? left, RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent? left, RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent? right)
+  method public virtual RealTree.Authzn.CSharp.GrantPolicyDecision.RequireConsent <Clone>$()
+  method public void Deconstruct(out string Reason, out string Tier)
+
+readonly struct RealTree.Authzn.CSharp.GrantRef : IEquatable<RealTree.Authzn.CSharp.GrantRef>
+  ctor public(string Value)
+  property public string Value { get; init; }
+  method public bool Equals(RealTree.Authzn.CSharp.GrantRef other)
+  method public override bool Equals(object obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(RealTree.Authzn.CSharp.GrantRef left, RealTree.Authzn.CSharp.GrantRef right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.GrantRef left, RealTree.Authzn.CSharp.GrantRef right)
+  method public void Deconstruct(out string Value)
+
+sealed class RealTree.Authzn.CSharp.GrantSource : IEquatable<RealTree.Authzn.CSharp.GrantSource>
+  ctor public(RealTree.Authzn.CSharp.RoleRef Role, RealTree.Authzn.CSharp.PermissionGrant Grant)
+  property public RealTree.Authzn.CSharp.PermissionGrant Grant { get; init; }
+  property public RealTree.Authzn.CSharp.RoleRef Role { get; init; }
+  property public bool IsWildcard { get; }
+  method public RealTree.Authzn.CSharp.GrantSource <Clone>$()
+  method public bool Equals(RealTree.Authzn.CSharp.GrantSource? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(RealTree.Authzn.CSharp.GrantSource? left, RealTree.Authzn.CSharp.GrantSource? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.GrantSource? left, RealTree.Authzn.CSharp.GrantSource? right)
+  method public void Deconstruct(out RealTree.Authzn.CSharp.RoleRef Role, out RealTree.Authzn.CSharp.PermissionGrant Grant)
+
+sealed class RealTree.Authzn.CSharp.Permission : IEquatable<RealTree.Authzn.CSharp.Permission>
+  ctor public(string resource, string action)
+  property public string Action { get; }
+  property public string Resource { get; }
+  method public RealTree.Authzn.CSharp.Permission <Clone>$()
+  method public bool Equals(RealTree.Authzn.CSharp.Permission? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static RealTree.Authzn.CSharp.Permission Parse(string value)
+  method public static RealTree.Authzn.CSharp.Permission op_Explicit(string value)
+  method public static bool Matches(RealTree.Authzn.CSharp.Permission required, RealTree.Authzn.CSharp.PermissionPattern grant)
+  method public static bool Matches(string required, string grant)
+  method public static bool TryParse(string? value, out RealTree.Authzn.CSharp.Permission? permission)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.Permission? left, RealTree.Authzn.CSharp.Permission? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.Permission? left, RealTree.Authzn.CSharp.Permission? right)
+
+sealed class RealTree.Authzn.CSharp.PermissionGrant
+  property public IReadOnlyDictionary<string, RealTree.Authzn.CSharp.ScopeValue> Scope { get; }
+  property public RealTree.Authzn.CSharp.GrantMetadata Metadata { get; }
+  property public RealTree.Authzn.CSharp.GrantRef Key { get; }
+  property public RealTree.Authzn.CSharp.PermissionPattern Permission { get; }
+  property public bool HasCondition { get; }
+
+sealed class RealTree.Authzn.CSharp.PermissionPattern : IEquatable<RealTree.Authzn.CSharp.PermissionPattern>
+  property public RealTree.Authzn.CSharp.PermissionSegment Action { get; }
+  property public RealTree.Authzn.CSharp.PermissionSegment Resource { get; }
+  property public bool IsWildcard { get; }
+  property public static RealTree.Authzn.CSharp.PermissionPattern Everything { get; }
+  method public RealTree.Authzn.CSharp.PermissionPattern <Clone>$()
+  method public bool Covers(RealTree.Authzn.CSharp.Permission permission)
+  method public bool Equals(RealTree.Authzn.CSharp.PermissionPattern? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static RealTree.Authzn.CSharp.PermissionPattern Exactly(RealTree.Authzn.CSharp.Permission permission)
+  method public static RealTree.Authzn.CSharp.PermissionPattern Parse(string value)
+  method public static bool TryParse(string? value, out RealTree.Authzn.CSharp.PermissionPattern? pattern)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.PermissionPattern? left, RealTree.Authzn.CSharp.PermissionPattern? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.PermissionPattern? left, RealTree.Authzn.CSharp.PermissionPattern? right)
+
+abstract class RealTree.Authzn.CSharp.PermissionSegment : IEquatable<RealTree.Authzn.CSharp.PermissionSegment>
+  ctor protected(RealTree.Authzn.CSharp.PermissionSegment original)
+  property protected virtual Type EqualityContract { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract RealTree.Authzn.CSharp.PermissionSegment <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(RealTree.Authzn.CSharp.PermissionSegment? left, RealTree.Authzn.CSharp.PermissionSegment? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.PermissionSegment? left, RealTree.Authzn.CSharp.PermissionSegment? right)
+  method public virtual bool Equals(RealTree.Authzn.CSharp.PermissionSegment? other)
+
+sealed class RealTree.Authzn.CSharp.PermissionSegment.Any : RealTree.Authzn.CSharp.PermissionSegment, IEquatable<RealTree.Authzn.CSharp.PermissionSegment.Any>, IEquatable<RealTree.Authzn.CSharp.PermissionSegment>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.PermissionSegment.Any? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.PermissionSegment? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.PermissionSegment.Any? left, RealTree.Authzn.CSharp.PermissionSegment.Any? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.PermissionSegment.Any? left, RealTree.Authzn.CSharp.PermissionSegment.Any? right)
+  method public virtual RealTree.Authzn.CSharp.PermissionSegment.Any <Clone>$()
+
+sealed class RealTree.Authzn.CSharp.PermissionSegment.Exactly : RealTree.Authzn.CSharp.PermissionSegment, IEquatable<RealTree.Authzn.CSharp.PermissionSegment.Exactly>, IEquatable<RealTree.Authzn.CSharp.PermissionSegment>
+  ctor public(string Name)
+  property protected override Type EqualityContract { get; }
+  property public string Name { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.PermissionSegment.Exactly? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.PermissionSegment? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.PermissionSegment.Exactly? left, RealTree.Authzn.CSharp.PermissionSegment.Exactly? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.PermissionSegment.Exactly? left, RealTree.Authzn.CSharp.PermissionSegment.Exactly? right)
+  method public virtual RealTree.Authzn.CSharp.PermissionSegment.Exactly <Clone>$()
+  method public void Deconstruct(out string Name)
+
+readonly struct RealTree.Authzn.CSharp.PrincipalRef : IEquatable<RealTree.Authzn.CSharp.PrincipalRef>
+  ctor public(string Value)
+  property public string Value { get; init; }
+  method public bool Equals(RealTree.Authzn.CSharp.PrincipalRef other)
+  method public override bool Equals(object obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static RealTree.Authzn.CSharp.PrincipalRef op_Implicit(string value)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.PrincipalRef left, RealTree.Authzn.CSharp.PrincipalRef right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.PrincipalRef left, RealTree.Authzn.CSharp.PrincipalRef right)
+  method public void Deconstruct(out string Value)
+
+sealed class RealTree.Authzn.CSharp.Role
+  property public IReadOnlyList<RealTree.Authzn.CSharp.PermissionGrant> Grants { get; }
+  property public RealTree.Authzn.CSharp.RoleRef Id { get; }
+  property public string Name { get; }
+  method public static RealTree.Authzn.CSharp.Role Define(string id, string name, Action<RealTree.Authzn.CSharp.RoleBuilder> configure)
+
+sealed class RealTree.Authzn.CSharp.RoleBuilder
+  ctor public(string id, string name)
+  method public RealTree.Authzn.CSharp.Role Build()
+  method public RealTree.Authzn.CSharp.RoleBuilder Grant(string permission, IReadOnlyDictionary<string, RealTree.Authzn.CSharp.ScopeValue> scope)
+  method public RealTree.Authzn.CSharp.RoleBuilder Grant(string permission, RealTree.Authzn.CSharp.GrantMetadata metadata, IReadOnlyDictionary<string, RealTree.Authzn.CSharp.ScopeValue>? scope = null, Func<IReadOnlyDictionary<string, object>, bool>? condition = null)
+  method public RealTree.Authzn.CSharp.RoleBuilder Grant(string permission, params ValueTuple<string, RealTree.Authzn.CSharp.ScopeValue>[] scope)
+  method public RealTree.Authzn.CSharp.RoleBuilder GrantEverywhere(string permission)
+  method public RealTree.Authzn.CSharp.RoleBuilder GrantEverywhere(string permission, RealTree.Authzn.CSharp.GrantMetadata metadata)
+  method public RealTree.Authzn.CSharp.RoleBuilder GrantIf(string permission, Func<IReadOnlyDictionary<string, object>, bool> condition, IReadOnlyDictionary<string, RealTree.Authzn.CSharp.ScopeValue>? scope = null)
+
+readonly struct RealTree.Authzn.CSharp.RoleRef : IEquatable<RealTree.Authzn.CSharp.RoleRef>
+  ctor public(string Value)
+  property public string Value { get; init; }
+  method public bool Equals(RealTree.Authzn.CSharp.RoleRef other)
+  method public override bool Equals(object obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static RealTree.Authzn.CSharp.RoleRef op_Implicit(string value)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.RoleRef left, RealTree.Authzn.CSharp.RoleRef right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.RoleRef left, RealTree.Authzn.CSharp.RoleRef right)
+  method public void Deconstruct(out string Value)
+
+abstract class RealTree.Authzn.CSharp.RoleStore : RealTree.Authzn.IRoleStore
+  ctor protected()
+  method public abstract Task<RealTree.Authzn.CSharp.Role?> GetRoleAsync(RealTree.Authzn.CSharp.RoleRef id, CancellationToken cancellationToken)
+
+abstract class RealTree.Authzn.CSharp.ScopeConstraint : IEquatable<RealTree.Authzn.CSharp.ScopeConstraint>
+  ctor protected(RealTree.Authzn.CSharp.ScopeConstraint original)
+  property protected virtual Type EqualityContract { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract RealTree.Authzn.CSharp.ScopeConstraint <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeConstraint? left, RealTree.Authzn.CSharp.ScopeConstraint? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeConstraint? left, RealTree.Authzn.CSharp.ScopeConstraint? right)
+  method public virtual bool Equals(RealTree.Authzn.CSharp.ScopeConstraint? other)
+
+sealed class RealTree.Authzn.CSharp.ScopeConstraint.Everything : RealTree.Authzn.CSharp.ScopeConstraint, IEquatable<RealTree.Authzn.CSharp.ScopeConstraint.Everything>, IEquatable<RealTree.Authzn.CSharp.ScopeConstraint>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.ScopeConstraint.Everything? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.ScopeConstraint? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeConstraint.Everything? left, RealTree.Authzn.CSharp.ScopeConstraint.Everything? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeConstraint.Everything? left, RealTree.Authzn.CSharp.ScopeConstraint.Everything? right)
+  method public virtual RealTree.Authzn.CSharp.ScopeConstraint.Everything <Clone>$()
+
+sealed class RealTree.Authzn.CSharp.ScopeConstraint.Nothing : RealTree.Authzn.CSharp.ScopeConstraint, IEquatable<RealTree.Authzn.CSharp.ScopeConstraint.Nothing>, IEquatable<RealTree.Authzn.CSharp.ScopeConstraint>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.ScopeConstraint.Nothing? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.ScopeConstraint? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeConstraint.Nothing? left, RealTree.Authzn.CSharp.ScopeConstraint.Nothing? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeConstraint.Nothing? left, RealTree.Authzn.CSharp.ScopeConstraint.Nothing? right)
+  method public virtual RealTree.Authzn.CSharp.ScopeConstraint.Nothing <Clone>$()
+
+sealed class RealTree.Authzn.CSharp.ScopeConstraint.Restricted : RealTree.Authzn.CSharp.ScopeConstraint, IEquatable<RealTree.Authzn.CSharp.ScopeConstraint.Restricted>, IEquatable<RealTree.Authzn.CSharp.ScopeConstraint>
+  ctor public(IReadOnlyList<IReadOnlyDictionary<string, RealTree.Authzn.CSharp.ScopeValueSet>> Clauses)
+  property protected override Type EqualityContract { get; }
+  property public IReadOnlyList<IReadOnlyDictionary<string, RealTree.Authzn.CSharp.ScopeValueSet>> Clauses { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.ScopeConstraint.Restricted? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.ScopeConstraint? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeConstraint.Restricted? left, RealTree.Authzn.CSharp.ScopeConstraint.Restricted? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeConstraint.Restricted? left, RealTree.Authzn.CSharp.ScopeConstraint.Restricted? right)
+  method public virtual RealTree.Authzn.CSharp.ScopeConstraint.Restricted <Clone>$()
+  method public void Deconstruct(out IReadOnlyList<IReadOnlyDictionary<string, RealTree.Authzn.CSharp.ScopeValueSet>> Clauses)
+
+static class RealTree.Authzn.CSharp.ScopeMarkers
+  const public string Hierarchy = "hierarchy"
+  const public string Principal = "principal"
+
+abstract class RealTree.Authzn.CSharp.ScopeValue : IEquatable<RealTree.Authzn.CSharp.ScopeValue>
+  ctor protected(RealTree.Authzn.CSharp.ScopeValue original)
+  property protected virtual Type EqualityContract { get; }
+  property public static RealTree.Authzn.CSharp.ScopeValue Hierarchy { get; }
+  property public static RealTree.Authzn.CSharp.ScopeValue Principal { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract RealTree.Authzn.CSharp.ScopeValue <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public sealed override string ToString()
+  method public static RealTree.Authzn.CSharp.ScopeValue Parse(string text)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeValue? left, RealTree.Authzn.CSharp.ScopeValue? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeValue? left, RealTree.Authzn.CSharp.ScopeValue? right)
+  method public virtual bool Equals(RealTree.Authzn.CSharp.ScopeValue? other)
+
+sealed class RealTree.Authzn.CSharp.ScopeValue.Literal : RealTree.Authzn.CSharp.ScopeValue, IEquatable<RealTree.Authzn.CSharp.ScopeValue.Literal>, IEquatable<RealTree.Authzn.CSharp.ScopeValue>
+  ctor public(string value)
+  property protected override Type EqualityContract { get; }
+  property public string Value { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.ScopeValue.Literal? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.ScopeValue? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeValue.Literal? left, RealTree.Authzn.CSharp.ScopeValue.Literal? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeValue.Literal? left, RealTree.Authzn.CSharp.ScopeValue.Literal? right)
+  method public virtual RealTree.Authzn.CSharp.ScopeValue.Literal <Clone>$()
+
+sealed class RealTree.Authzn.CSharp.ScopeValue.Marker : RealTree.Authzn.CSharp.ScopeValue, IEquatable<RealTree.Authzn.CSharp.ScopeValue.Marker>, IEquatable<RealTree.Authzn.CSharp.ScopeValue>
+  ctor public(string name)
+  property protected override Type EqualityContract { get; }
+  property public string Name { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.ScopeValue.Marker? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.ScopeValue? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeValue.Marker? left, RealTree.Authzn.CSharp.ScopeValue.Marker? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeValue.Marker? left, RealTree.Authzn.CSharp.ScopeValue.Marker? right)
+  method public virtual RealTree.Authzn.CSharp.ScopeValue.Marker <Clone>$()
+
+abstract class RealTree.Authzn.CSharp.ScopeValueResolver : RealTree.Authzn.IScopeValueEnumerator, RealTree.Authzn.IScopeValueResolver
+  ctor protected()
+  method public abstract ValueTask<bool> AdmitsAsync(RealTree.Authzn.CSharp.PrincipalRef principal, string scopeKey, string marker, string requestValue, CancellationToken cancellationToken)
+  method public virtual ValueTask<RealTree.Authzn.CSharp.ScopeValueSet?> EnumerateScopeAsync(RealTree.Authzn.CSharp.PrincipalRef principal, string scopeKey, string marker, CancellationToken cancellationToken)
+
+abstract class RealTree.Authzn.CSharp.ScopeValueSet : IEquatable<RealTree.Authzn.CSharp.ScopeValueSet>
+  ctor protected(RealTree.Authzn.CSharp.ScopeValueSet original)
+  property protected virtual Type EqualityContract { get; }
+  property public static RealTree.Authzn.CSharp.ScopeValueSet Anything { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract RealTree.Authzn.CSharp.ScopeValueSet <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static RealTree.Authzn.CSharp.ScopeValueSet From(IEnumerable<string> values)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeValueSet? left, RealTree.Authzn.CSharp.ScopeValueSet? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeValueSet? left, RealTree.Authzn.CSharp.ScopeValueSet? right)
+  method public virtual bool Equals(RealTree.Authzn.CSharp.ScopeValueSet? other)
+
+sealed class RealTree.Authzn.CSharp.ScopeValueSet.Any : RealTree.Authzn.CSharp.ScopeValueSet, IEquatable<RealTree.Authzn.CSharp.ScopeValueSet.Any>, IEquatable<RealTree.Authzn.CSharp.ScopeValueSet>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.ScopeValueSet.Any? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.ScopeValueSet? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeValueSet.Any? left, RealTree.Authzn.CSharp.ScopeValueSet.Any? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeValueSet.Any? left, RealTree.Authzn.CSharp.ScopeValueSet.Any? right)
+  method public virtual RealTree.Authzn.CSharp.ScopeValueSet.Any <Clone>$()
+
+sealed class RealTree.Authzn.CSharp.ScopeValueSet.Of : RealTree.Authzn.CSharp.ScopeValueSet, IEquatable<RealTree.Authzn.CSharp.ScopeValueSet.Of>, IEquatable<RealTree.Authzn.CSharp.ScopeValueSet>
+  ctor public(IReadOnlySet<string> Values)
+  property protected override Type EqualityContract { get; }
+  property public IReadOnlySet<string> Values { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(RealTree.Authzn.CSharp.ScopeValueSet.Of? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(RealTree.Authzn.CSharp.ScopeValueSet? other)
+  method public static bool op_Equality(RealTree.Authzn.CSharp.ScopeValueSet.Of? left, RealTree.Authzn.CSharp.ScopeValueSet.Of? right)
+  method public static bool op_Inequality(RealTree.Authzn.CSharp.ScopeValueSet.Of? left, RealTree.Authzn.CSharp.ScopeValueSet.Of? right)
+  method public virtual RealTree.Authzn.CSharp.ScopeValueSet.Of <Clone>$()
+  method public void Deconstruct(out IReadOnlySet<string> Values)
+
+static class RealTree.Authzn.CSharp.ServiceCollectionExtensions
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Action<RealTree.Authzn.CSharp.AuthorizationBuilder> configure)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, RealTree.Authzn.CSharp.RoleStore roleStore, RealTree.Authzn.CSharp.AssignmentStore assignmentStore, RealTree.Authzn.CSharp.ScopeValueResolver? scopeResolver = null)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn<TRoleStore, TAssignmentStore>(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Action<IServiceProvider, RealTree.Authzn.CSharp.AuthorizationBuilder>? configure = null)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddGrantPolicy<T>(this Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+

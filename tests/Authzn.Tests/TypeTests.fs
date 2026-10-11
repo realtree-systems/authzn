@@ -1,8 +1,8 @@
-module Authzn.Tests.TypeTests
+module RealTree.Authzn.Tests.TypeTests
 
 open System
 open Xunit
-open Authzn
+open RealTree.Authzn
 
 [<Fact>]
 let ``PermissionId.parse parses resource:action format`` () =

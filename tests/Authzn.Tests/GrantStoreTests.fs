@@ -1,9 +1,9 @@
-module Authzn.Tests.GrantStoreTests
+module RealTree.Authzn.Tests.GrantStoreTests
 
 open System
 open System.Threading
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 open Xunit
 
 let private makeRole () : Role =

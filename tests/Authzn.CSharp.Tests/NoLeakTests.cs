@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Xunit;
 
-namespace Authzn.CSharp.Tests;
+namespace RealTree.Authzn.CSharp.Tests;
 
 /// <summary>
-/// Checks that no public method, constructor, property or field of an exported Authzn.CSharp type
+/// Checks that no public method, constructor, property or field of an exported RealTree.Authzn.CSharp type
 /// uses a <c>Microsoft.FSharp.*</c> type, directly, as an array element or as a generic argument,
 /// so C# code calling the facade never names an FSharp.Core type.
 /// </summary>

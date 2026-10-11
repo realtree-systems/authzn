@@ -4,13 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// Base class for a custom role store. Override <see cref="GetRoleAsync"/> to load roles from
-/// your persistence. The engine calls it through the core's <c>Authzn.IRoleStore</c> interface for
+/// your persistence. The engine calls it through the core's <c>RealTree.Authzn.IRoleStore</c> interface for
 /// the role of each active assignment it evaluates, and does not cache the result. Requests may be
 /// evaluated on several threads at once, so the override must be safe for concurrent calls.
 /// </summary>

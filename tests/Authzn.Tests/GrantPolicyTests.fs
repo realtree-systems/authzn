@@ -1,10 +1,10 @@
-module Authzn.Tests.GrantPolicyTests
+module RealTree.Authzn.Tests.GrantPolicyTests
 
 open System.Collections.Generic
 open System.Threading
 open System.Threading.Tasks
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 open Microsoft.Extensions.DependencyInjection
 open Xunit
 

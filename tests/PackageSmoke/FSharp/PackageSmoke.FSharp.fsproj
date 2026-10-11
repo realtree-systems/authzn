@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <!-- AuthznVersion is passed by run.sh: the version of the package under test. -->
-    <PackageReference Include="Authzn" Version="$(AuthznVersion)" />
+    <PackageReference Include="RealTree.Authzn" Version="$(AuthznVersion)" />
   </ItemGroup>
 
 </Project>

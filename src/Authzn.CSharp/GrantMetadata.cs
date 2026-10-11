@@ -1,8 +1,8 @@
 using System;
 using Microsoft.FSharp.Core;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// Optional audit and lifecycle metadata attached to a permission grant: who added it, why,

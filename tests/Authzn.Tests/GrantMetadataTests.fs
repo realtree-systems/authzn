@@ -1,9 +1,9 @@
-module Authzn.Tests.GrantMetadataTests
+module RealTree.Authzn.Tests.GrantMetadataTests
 
 open System
 open System.Threading
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 open Xunit
 
 [<Fact>]

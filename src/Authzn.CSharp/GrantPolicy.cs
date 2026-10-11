@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// The decision a write-time <see cref="GrantPolicy"/> returns: <see cref="Allow"/>,
@@ -45,7 +45,7 @@ public abstract record GrantPolicyDecision
         { IsAllow: true } => new Allow(),
         Fs.GrantPolicyDecision.Reject reject => new Reject(reject.Reason, reject.Code),
         Fs.GrantPolicyDecision.RequireConsent consent => new RequireConsent(consent.Reason, consent.Tier),
-        _ => throw new InvalidOperationException($"Unmapped Authzn.GrantPolicyDecision case '{decision}'."),
+        _ => throw new InvalidOperationException($"Unmapped RealTree.Authzn.GrantPolicyDecision case '{decision}'."),
     };
 }
 

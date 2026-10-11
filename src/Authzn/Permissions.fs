@@ -1,9 +1,9 @@
 /// Matching of request scopes against grant scopes, used by every Engine function.
-module internal Authzn.Permissions
+module internal RealTree.Authzn.Permissions
 
 open System.Threading
 open System.Threading.Tasks
-open Authzn
+open RealTree.Authzn
 
 /// The per-key rule shared by scopeMatchesAsync and scopeAdmitsAsync. A literal matches a requested
 /// value by ordinal equality. A marker is never compared as text; it matches only when the resolver

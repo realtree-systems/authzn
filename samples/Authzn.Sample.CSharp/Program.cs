@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 
 // This sample runs the usage scenarios from README.md (the F# package's README) through the C#
-// facade. It needs no `using Microsoft.FSharp.*` or `using Authzn;` directive because every Authzn
-// type it uses is in the Authzn.CSharp namespace.
+// facade. It needs no `using Microsoft.FSharp.*` or `using RealTree.Authzn;` directive because every Authzn
+// type it uses is in the RealTree.Authzn.CSharp namespace.
 
 static void PrintResult(string scenario, AuthorizationDecision decision)
 {

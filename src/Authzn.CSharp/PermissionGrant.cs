@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Microsoft.FSharp.Core;
 using Microsoft.FSharp.Collections;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// A read-only view of a single permission grant within a role: the pattern it covers, its grant

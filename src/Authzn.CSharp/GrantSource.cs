@@ -1,6 +1,6 @@
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// One grant that admits a permission, and the role that carries it. Returned by

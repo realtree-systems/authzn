@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// Conversions between the facade's .NET types and the core's F# types: nullable values and
@@ -152,6 +152,6 @@ internal static class Interop
         }
 
         throw new InvalidOperationException(
-            $"Unmapped Authzn.DenyReason case '{reason}'. The C# DenyReason enum is out of sync with the F# core.");
+            $"Unmapped RealTree.Authzn.DenyReason case '{reason}'. The C# DenyReason enum is out of sync with the F# core.");
     }
 }

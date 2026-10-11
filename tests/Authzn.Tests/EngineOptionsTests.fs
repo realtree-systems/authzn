@@ -1,12 +1,12 @@
-module Authzn.Tests.EngineOptionsTests
+module RealTree.Authzn.Tests.EngineOptionsTests
 
 open System
 open System.Collections.Concurrent
 open System.Threading
 open System.Threading.Tasks
 open Xunit
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 // Grants reports:read for the tenant the principal marker admits.
 let private tenantReader =
