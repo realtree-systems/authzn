@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Authzn.CSharp</PackageId>
+    <RootNamespace>Authzn.CSharp</RootNamespace>
+    <Description>Idiomatic C# API for the Authzn RBAC/ABAC authorization engine. Fluent builders, plain Func conditions, nullable types, and dictionaries instead of F# Map/option/func.</Description>
+    <PackageTags>authorization;rbac;abac;permissions;csharp;access-control;role-based;scope;policy</PackageTags>
+    <PackageReadmeFile>README.CSharp.md</PackageReadmeFile>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authzn\Authzn.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Authzn.CSharp.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ServiceCollectionExtensions.cs uses IServiceCollection from this package. Authzn also
+         references it, but this project names its types directly, so it declares the reference. -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.CSharp.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Packing turns the ProjectReference to Authzn.fsproj into a versioned NuGet dependency on
+       the Authzn package. Both projects take their version from MinVer through
+       Directory.Build.props, so both packages get the same version from the same git tag. -->
+
+</Project>

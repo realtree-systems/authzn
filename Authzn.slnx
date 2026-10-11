@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Authzn/Authzn.fsproj" />
+    <Project Path="src/Authzn.CSharp/Authzn.CSharp.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Authzn.Tests/Authzn.Tests.fsproj" />
+    <Project Path="tests/Authzn.CSharp.Tests/Authzn.CSharp.Tests.csproj" />
+  </Folder>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/Authzn.Benchmarks/Authzn.Benchmarks.fsproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/Authzn.Sample.CSharp/Authzn.Sample.CSharp.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,4 @@
+<Project>
+  <!-- Empty, so the smoke apps do not import the repository-wide Directory.Build.props: they build
+       like a consumer's project, with the SDK's defaults and the packages' declared dependencies. -->
+</Project>

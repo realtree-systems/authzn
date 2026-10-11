@@ -1,0 +1,500 @@
+sealed class Authzn.CSharp.Assignment
+  property public Authzn.CSharp.PrincipalRef Principal { get; }
+  property public Authzn.CSharp.RoleRef Role { get; }
+  property public DateTimeOffset? NotAfter { get; }
+  property public DateTimeOffset? NotBefore { get; }
+  property public bool Revoked { get; }
+  method public Authzn.CSharp.Assignment AsRevoked()
+  method public bool IsActiveAt(DateTimeOffset at)
+  method public static Authzn.CSharp.Assignment Create(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.RoleRef role)
+  method public static Authzn.CSharp.Assignment ForWindow(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.RoleRef role, DateTimeOffset? notBefore = null, DateTimeOffset? notAfter = null)
+
+abstract class Authzn.CSharp.AssignmentStore : Authzn.IAssignmentStore
+  ctor protected()
+  method public abstract Task<IReadOnlyList<Authzn.CSharp.Assignment>> GetAssignmentsForPrincipalAsync(Authzn.CSharp.PrincipalRef principal, CancellationToken cancellationToken)
+
+sealed class Authzn.CSharp.AuthorizationBuilder
+  ctor public()
+  method public Authzn.CSharp.AuthorizationBuilder AddRole(Authzn.CSharp.Role role)
+  method public Authzn.CSharp.AuthorizationBuilder AddRole(string id, string name, Action<Authzn.CSharp.RoleBuilder> configure)
+  method public Authzn.CSharp.AuthorizationBuilder Assign(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.RoleRef role)
+  method public Authzn.CSharp.AuthorizationBuilder AssignForWindow(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.RoleRef role, DateTimeOffset? notBefore = null, DateTimeOffset? notAfter = null)
+  method public Authzn.CSharp.AuthorizationBuilder Revoke(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.RoleRef role)
+  method public Authzn.CSharp.AuthorizationBuilder UseAssignmentStore(Authzn.CSharp.AssignmentStore store)
+  method public Authzn.CSharp.AuthorizationBuilder UseRoleStore(Authzn.CSharp.RoleStore store)
+  method public Authzn.CSharp.AuthorizationBuilder UseScopeResolver(Authzn.CSharp.ScopeValueResolver resolver)
+  method public Authzn.CSharp.AuthorizationBuilder UseTimeProvider(TimeProvider timeProvider)
+  method public Authzn.CSharp.Authorizer Build()
+
+abstract class Authzn.CSharp.AuthorizationDecision : IEquatable<Authzn.CSharp.AuthorizationDecision>
+  ctor protected(Authzn.CSharp.AuthorizationDecision original)
+  property protected virtual Type EqualityContract { get; }
+  property public bool IsAllowed { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract Authzn.CSharp.AuthorizationDecision <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(Authzn.CSharp.AuthorizationDecision? left, Authzn.CSharp.AuthorizationDecision? right)
+  method public static bool op_Inequality(Authzn.CSharp.AuthorizationDecision? left, Authzn.CSharp.AuthorizationDecision? right)
+  method public virtual bool Equals(Authzn.CSharp.AuthorizationDecision? other)
+
+sealed class Authzn.CSharp.AuthorizationDecision.Allowed : Authzn.CSharp.AuthorizationDecision, IEquatable<Authzn.CSharp.AuthorizationDecision.Allowed>, IEquatable<Authzn.CSharp.AuthorizationDecision>
+  ctor public(Authzn.CSharp.RoleRef Role, Authzn.CSharp.PermissionPattern Permission)
+  property protected override Type EqualityContract { get; }
+  property public Authzn.CSharp.PermissionPattern Permission { get; init; }
+  property public Authzn.CSharp.RoleRef Role { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.AuthorizationDecision.Allowed? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.AuthorizationDecision? other)
+  method public static bool op_Equality(Authzn.CSharp.AuthorizationDecision.Allowed? left, Authzn.CSharp.AuthorizationDecision.Allowed? right)
+  method public static bool op_Inequality(Authzn.CSharp.AuthorizationDecision.Allowed? left, Authzn.CSharp.AuthorizationDecision.Allowed? right)
+  method public virtual Authzn.CSharp.AuthorizationDecision.Allowed <Clone>$()
+  method public void Deconstruct(out Authzn.CSharp.RoleRef Role, out Authzn.CSharp.PermissionPattern Permission)
+
+sealed class Authzn.CSharp.AuthorizationDecision.Denied : Authzn.CSharp.AuthorizationDecision, IEquatable<Authzn.CSharp.AuthorizationDecision.Denied>, IEquatable<Authzn.CSharp.AuthorizationDecision>
+  ctor public(Authzn.CSharp.DenyReason Reason)
+  property protected override Type EqualityContract { get; }
+  property public Authzn.CSharp.DenyReason Reason { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.AuthorizationDecision.Denied? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.AuthorizationDecision? other)
+  method public static bool op_Equality(Authzn.CSharp.AuthorizationDecision.Denied? left, Authzn.CSharp.AuthorizationDecision.Denied? right)
+  method public static bool op_Inequality(Authzn.CSharp.AuthorizationDecision.Denied? left, Authzn.CSharp.AuthorizationDecision.Denied? right)
+  method public virtual Authzn.CSharp.AuthorizationDecision.Denied <Clone>$()
+  method public void Deconstruct(out Authzn.CSharp.DenyReason Reason)
+
+sealed class Authzn.CSharp.AuthorizationRequest
+  ctor public(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.Permission permission, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null)
+  property public Authzn.CSharp.Permission Permission { get; }
+  property public Authzn.CSharp.PrincipalRef Principal { get; }
+  property public IReadOnlyDictionary<string, object> Attributes { get; }
+  property public IReadOnlyDictionary<string, string> Scope { get; }
+  method public Authzn.CSharp.AuthorizationRequest WithAttributes(IReadOnlyDictionary<string, object> attributes)
+  method public Authzn.CSharp.AuthorizationRequest WithScope(IReadOnlyDictionary<string, string> scope)
+
+sealed class Authzn.CSharp.Authorizer
+  method public Task<Authzn.CSharp.AuthorizationDecision> AuthorizeAsync(Authzn.CSharp.AuthorizationRequest request, CancellationToken cancellationToken = default)
+  method public Task<Authzn.CSharp.AuthorizationDecision> AuthorizeAsync(Authzn.CSharp.PrincipalRef principal, string permission, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null, CancellationToken cancellationToken = default)
+  method public Task<Authzn.CSharp.ScopeConstraint> VisibleScopeAsync(Authzn.CSharp.PrincipalRef principal, string permission, IReadOnlyDictionary<string, string>? partialScope = null, CancellationToken cancellationToken = default)
+  method public Task<IReadOnlyDictionary<string, IReadOnlyList<Authzn.CSharp.GrantSource>>> GrantsAmongAsync(Authzn.CSharp.PrincipalRef principal, IEnumerable<string> permissions, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null, CancellationToken cancellationToken = default)
+  method public Task<IReadOnlyList<T>> FilterAsync<T>(Authzn.CSharp.PrincipalRef principal, string permission, IEnumerable<T> candidates, Func<T, IReadOnlyDictionary<string, string>> scopeOf, Func<T, IReadOnlyDictionary<string, object>>? attributesOf = null, CancellationToken cancellationToken = default)
+  method public Task<IReadOnlySet<string>> AllowedAmongAsync(Authzn.CSharp.PrincipalRef principal, IEnumerable<string> permissions, IReadOnlyDictionary<string, string>? scope = null, IReadOnlyDictionary<string, object>? attributes = null, CancellationToken cancellationToken = default)
+  method public Task<bool> MayAnyAsync(Authzn.CSharp.PrincipalRef principal, string permission, IReadOnlyDictionary<string, string>? partialScope = null, CancellationToken cancellationToken = default)
+  method public void AddAssignment(Authzn.CSharp.Assignment assignment)
+  method public void AddRole(Authzn.CSharp.Role role)
+  method public void AddRole(string id, string name, Action<Authzn.CSharp.RoleBuilder> configure)
+  method public void ReinstateGrant(Authzn.CSharp.RoleRef role, Authzn.CSharp.GrantRef grant)
+  method public void Revoke(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.RoleRef role)
+  method public void RevokeGrant(Authzn.CSharp.RoleRef role, Authzn.CSharp.GrantRef grant, Authzn.CSharp.PrincipalRef revokedBy)
+
+sealed class Authzn.CSharp.DelegateScopeResolver : Authzn.CSharp.ScopeValueResolver, Authzn.IScopeValueEnumerator, Authzn.IScopeValueResolver
+  ctor public(Func<Authzn.CSharp.PrincipalRef, string, string, string, bool> admits)
+  method public override ValueTask<bool> AdmitsAsync(Authzn.CSharp.PrincipalRef principal, string scopeKey, string marker, string requestValue, CancellationToken cancellationToken)
+
+enum Authzn.CSharp.DenyReason : IComparable, IConvertible, IFormattable, ISpanFormattable
+  NoAssignments = 1
+  NoMatchingPermission = 2
+  ScopeMismatch = 3
+  AssignmentNotActive = 4
+  GrantNotActive = 5
+  AttributeEvaluationFailed = 6
+
+sealed class Authzn.CSharp.GrantMetadata : IEquatable<Authzn.CSharp.GrantMetadata>
+  ctor public()
+  property public Authzn.CSharp.PrincipalRef? ConsentedBy { get; init; }
+  property public Authzn.CSharp.PrincipalRef? RevokedBy { get; init; }
+  property public DateTimeOffset? ConsentedAt { get; init; }
+  property public DateTimeOffset? ExpiresAt { get; init; }
+  property public DateTimeOffset? RevokedAt { get; init; }
+  property public static Authzn.CSharp.GrantMetadata Empty { get; }
+  property public string? Reason { get; init; }
+  property public string? Source { get; init; }
+  method public Authzn.CSharp.GrantMetadata <Clone>$()
+  method public bool Equals(Authzn.CSharp.GrantMetadata? other)
+  method public bool IsActiveAt(DateTimeOffset at)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(Authzn.CSharp.GrantMetadata? left, Authzn.CSharp.GrantMetadata? right)
+  method public static bool op_Inequality(Authzn.CSharp.GrantMetadata? left, Authzn.CSharp.GrantMetadata? right)
+
+abstract class Authzn.CSharp.GrantPolicy : Authzn.IGrantPolicy
+  ctor protected()
+  method public abstract Task<Authzn.CSharp.GrantPolicyDecision> EvaluateAsync(Authzn.CSharp.GrantPolicyContext context, CancellationToken cancellationToken)
+
+sealed class Authzn.CSharp.GrantPolicyChain
+  ctor public(IEnumerable<Authzn.CSharp.GrantPolicy> policies)
+  method public Task<Authzn.CSharp.GrantPolicyDecision> EvaluateAsync(Authzn.CSharp.GrantPolicyContext context, CancellationToken cancellationToken = default)
+
+sealed class Authzn.CSharp.GrantPolicyContext
+  ctor public(Authzn.CSharp.PrincipalRef principal, Authzn.CSharp.RoleRef role, Authzn.CSharp.PermissionGrant grant, IReadOnlyDictionary<string, string>? properties = null)
+  property public Authzn.CSharp.PermissionGrant Grant { get; }
+  property public Authzn.CSharp.PrincipalRef Principal { get; }
+  property public Authzn.CSharp.RoleRef Role { get; }
+  property public IReadOnlyDictionary<string, string> Properties { get; }
+
+abstract class Authzn.CSharp.GrantPolicyDecision : IEquatable<Authzn.CSharp.GrantPolicyDecision>
+  ctor protected(Authzn.CSharp.GrantPolicyDecision original)
+  property protected virtual Type EqualityContract { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract Authzn.CSharp.GrantPolicyDecision <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(Authzn.CSharp.GrantPolicyDecision? left, Authzn.CSharp.GrantPolicyDecision? right)
+  method public static bool op_Inequality(Authzn.CSharp.GrantPolicyDecision? left, Authzn.CSharp.GrantPolicyDecision? right)
+  method public virtual bool Equals(Authzn.CSharp.GrantPolicyDecision? other)
+
+sealed class Authzn.CSharp.GrantPolicyDecision.Allow : Authzn.CSharp.GrantPolicyDecision, IEquatable<Authzn.CSharp.GrantPolicyDecision.Allow>, IEquatable<Authzn.CSharp.GrantPolicyDecision>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.GrantPolicyDecision.Allow? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.GrantPolicyDecision? other)
+  method public static bool op_Equality(Authzn.CSharp.GrantPolicyDecision.Allow? left, Authzn.CSharp.GrantPolicyDecision.Allow? right)
+  method public static bool op_Inequality(Authzn.CSharp.GrantPolicyDecision.Allow? left, Authzn.CSharp.GrantPolicyDecision.Allow? right)
+  method public virtual Authzn.CSharp.GrantPolicyDecision.Allow <Clone>$()
+
+sealed class Authzn.CSharp.GrantPolicyDecision.Reject : Authzn.CSharp.GrantPolicyDecision, IEquatable<Authzn.CSharp.GrantPolicyDecision.Reject>, IEquatable<Authzn.CSharp.GrantPolicyDecision>
+  ctor public(string Reason, string Code)
+  property protected override Type EqualityContract { get; }
+  property public string Code { get; init; }
+  property public string Reason { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.GrantPolicyDecision.Reject? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.GrantPolicyDecision? other)
+  method public static bool op_Equality(Authzn.CSharp.GrantPolicyDecision.Reject? left, Authzn.CSharp.GrantPolicyDecision.Reject? right)
+  method public static bool op_Inequality(Authzn.CSharp.GrantPolicyDecision.Reject? left, Authzn.CSharp.GrantPolicyDecision.Reject? right)
+  method public virtual Authzn.CSharp.GrantPolicyDecision.Reject <Clone>$()
+  method public void Deconstruct(out string Reason, out string Code)
+
+sealed class Authzn.CSharp.GrantPolicyDecision.RequireConsent : Authzn.CSharp.GrantPolicyDecision, IEquatable<Authzn.CSharp.GrantPolicyDecision.RequireConsent>, IEquatable<Authzn.CSharp.GrantPolicyDecision>
+  ctor public(string Reason, string Tier)
+  property protected override Type EqualityContract { get; }
+  property public string Reason { get; init; }
+  property public string Tier { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.GrantPolicyDecision.RequireConsent? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.GrantPolicyDecision? other)
+  method public static bool op_Equality(Authzn.CSharp.GrantPolicyDecision.RequireConsent? left, Authzn.CSharp.GrantPolicyDecision.RequireConsent? right)
+  method public static bool op_Inequality(Authzn.CSharp.GrantPolicyDecision.RequireConsent? left, Authzn.CSharp.GrantPolicyDecision.RequireConsent? right)
+  method public virtual Authzn.CSharp.GrantPolicyDecision.RequireConsent <Clone>$()
+  method public void Deconstruct(out string Reason, out string Tier)
+
+readonly struct Authzn.CSharp.GrantRef : IEquatable<Authzn.CSharp.GrantRef>
+  ctor public(string Value)
+  property public string Value { get; init; }
+  method public bool Equals(Authzn.CSharp.GrantRef other)
+  method public override bool Equals(object obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(Authzn.CSharp.GrantRef left, Authzn.CSharp.GrantRef right)
+  method public static bool op_Inequality(Authzn.CSharp.GrantRef left, Authzn.CSharp.GrantRef right)
+  method public void Deconstruct(out string Value)
+
+sealed class Authzn.CSharp.GrantSource : IEquatable<Authzn.CSharp.GrantSource>
+  ctor public(Authzn.CSharp.RoleRef Role, Authzn.CSharp.PermissionGrant Grant)
+  property public Authzn.CSharp.PermissionGrant Grant { get; init; }
+  property public Authzn.CSharp.RoleRef Role { get; init; }
+  property public bool IsWildcard { get; }
+  method public Authzn.CSharp.GrantSource <Clone>$()
+  method public bool Equals(Authzn.CSharp.GrantSource? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(Authzn.CSharp.GrantSource? left, Authzn.CSharp.GrantSource? right)
+  method public static bool op_Inequality(Authzn.CSharp.GrantSource? left, Authzn.CSharp.GrantSource? right)
+  method public void Deconstruct(out Authzn.CSharp.RoleRef Role, out Authzn.CSharp.PermissionGrant Grant)
+
+sealed class Authzn.CSharp.Permission : IEquatable<Authzn.CSharp.Permission>
+  ctor public(string resource, string action)
+  property public string Action { get; }
+  property public string Resource { get; }
+  method public Authzn.CSharp.Permission <Clone>$()
+  method public bool Equals(Authzn.CSharp.Permission? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static Authzn.CSharp.Permission Parse(string value)
+  method public static Authzn.CSharp.Permission op_Explicit(string value)
+  method public static bool Matches(Authzn.CSharp.Permission required, Authzn.CSharp.PermissionPattern grant)
+  method public static bool Matches(string required, string grant)
+  method public static bool TryParse(string? value, out Authzn.CSharp.Permission? permission)
+  method public static bool op_Equality(Authzn.CSharp.Permission? left, Authzn.CSharp.Permission? right)
+  method public static bool op_Inequality(Authzn.CSharp.Permission? left, Authzn.CSharp.Permission? right)
+
+sealed class Authzn.CSharp.PermissionGrant
+  property public Authzn.CSharp.GrantMetadata Metadata { get; }
+  property public Authzn.CSharp.GrantRef Key { get; }
+  property public Authzn.CSharp.PermissionPattern Permission { get; }
+  property public IReadOnlyDictionary<string, Authzn.CSharp.ScopeValue> Scope { get; }
+  property public bool HasCondition { get; }
+
+sealed class Authzn.CSharp.PermissionPattern : IEquatable<Authzn.CSharp.PermissionPattern>
+  property public Authzn.CSharp.PermissionSegment Action { get; }
+  property public Authzn.CSharp.PermissionSegment Resource { get; }
+  property public bool IsWildcard { get; }
+  property public static Authzn.CSharp.PermissionPattern Everything { get; }
+  method public Authzn.CSharp.PermissionPattern <Clone>$()
+  method public bool Covers(Authzn.CSharp.Permission permission)
+  method public bool Equals(Authzn.CSharp.PermissionPattern? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static Authzn.CSharp.PermissionPattern Exactly(Authzn.CSharp.Permission permission)
+  method public static Authzn.CSharp.PermissionPattern Parse(string value)
+  method public static bool TryParse(string? value, out Authzn.CSharp.PermissionPattern? pattern)
+  method public static bool op_Equality(Authzn.CSharp.PermissionPattern? left, Authzn.CSharp.PermissionPattern? right)
+  method public static bool op_Inequality(Authzn.CSharp.PermissionPattern? left, Authzn.CSharp.PermissionPattern? right)
+
+abstract class Authzn.CSharp.PermissionSegment : IEquatable<Authzn.CSharp.PermissionSegment>
+  ctor protected(Authzn.CSharp.PermissionSegment original)
+  property protected virtual Type EqualityContract { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract Authzn.CSharp.PermissionSegment <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(Authzn.CSharp.PermissionSegment? left, Authzn.CSharp.PermissionSegment? right)
+  method public static bool op_Inequality(Authzn.CSharp.PermissionSegment? left, Authzn.CSharp.PermissionSegment? right)
+  method public virtual bool Equals(Authzn.CSharp.PermissionSegment? other)
+
+sealed class Authzn.CSharp.PermissionSegment.Any : Authzn.CSharp.PermissionSegment, IEquatable<Authzn.CSharp.PermissionSegment.Any>, IEquatable<Authzn.CSharp.PermissionSegment>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.PermissionSegment.Any? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.PermissionSegment? other)
+  method public static bool op_Equality(Authzn.CSharp.PermissionSegment.Any? left, Authzn.CSharp.PermissionSegment.Any? right)
+  method public static bool op_Inequality(Authzn.CSharp.PermissionSegment.Any? left, Authzn.CSharp.PermissionSegment.Any? right)
+  method public virtual Authzn.CSharp.PermissionSegment.Any <Clone>$()
+
+sealed class Authzn.CSharp.PermissionSegment.Exactly : Authzn.CSharp.PermissionSegment, IEquatable<Authzn.CSharp.PermissionSegment.Exactly>, IEquatable<Authzn.CSharp.PermissionSegment>
+  ctor public(string Name)
+  property protected override Type EqualityContract { get; }
+  property public string Name { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.PermissionSegment.Exactly? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.PermissionSegment? other)
+  method public static bool op_Equality(Authzn.CSharp.PermissionSegment.Exactly? left, Authzn.CSharp.PermissionSegment.Exactly? right)
+  method public static bool op_Inequality(Authzn.CSharp.PermissionSegment.Exactly? left, Authzn.CSharp.PermissionSegment.Exactly? right)
+  method public virtual Authzn.CSharp.PermissionSegment.Exactly <Clone>$()
+  method public void Deconstruct(out string Name)
+
+readonly struct Authzn.CSharp.PrincipalRef : IEquatable<Authzn.CSharp.PrincipalRef>
+  ctor public(string Value)
+  property public string Value { get; init; }
+  method public bool Equals(Authzn.CSharp.PrincipalRef other)
+  method public override bool Equals(object obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static Authzn.CSharp.PrincipalRef op_Implicit(string value)
+  method public static bool op_Equality(Authzn.CSharp.PrincipalRef left, Authzn.CSharp.PrincipalRef right)
+  method public static bool op_Inequality(Authzn.CSharp.PrincipalRef left, Authzn.CSharp.PrincipalRef right)
+  method public void Deconstruct(out string Value)
+
+sealed class Authzn.CSharp.Role
+  property public Authzn.CSharp.RoleRef Id { get; }
+  property public IReadOnlyList<Authzn.CSharp.PermissionGrant> Grants { get; }
+  property public string Name { get; }
+  method public static Authzn.CSharp.Role Define(string id, string name, Action<Authzn.CSharp.RoleBuilder> configure)
+
+sealed class Authzn.CSharp.RoleBuilder
+  ctor public(string id, string name)
+  method public Authzn.CSharp.Role Build()
+  method public Authzn.CSharp.RoleBuilder Grant(string permission, Authzn.CSharp.GrantMetadata metadata, IReadOnlyDictionary<string, Authzn.CSharp.ScopeValue>? scope = null, Func<IReadOnlyDictionary<string, object>, bool>? condition = null)
+  method public Authzn.CSharp.RoleBuilder Grant(string permission, IReadOnlyDictionary<string, Authzn.CSharp.ScopeValue> scope)
+  method public Authzn.CSharp.RoleBuilder Grant(string permission, params ValueTuple<string, Authzn.CSharp.ScopeValue>[] scope)
+  method public Authzn.CSharp.RoleBuilder GrantEverywhere(string permission)
+  method public Authzn.CSharp.RoleBuilder GrantEverywhere(string permission, Authzn.CSharp.GrantMetadata metadata)
+  method public Authzn.CSharp.RoleBuilder GrantIf(string permission, Func<IReadOnlyDictionary<string, object>, bool> condition, IReadOnlyDictionary<string, Authzn.CSharp.ScopeValue>? scope = null)
+
+readonly struct Authzn.CSharp.RoleRef : IEquatable<Authzn.CSharp.RoleRef>
+  ctor public(string Value)
+  property public string Value { get; init; }
+  method public bool Equals(Authzn.CSharp.RoleRef other)
+  method public override bool Equals(object obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static Authzn.CSharp.RoleRef op_Implicit(string value)
+  method public static bool op_Equality(Authzn.CSharp.RoleRef left, Authzn.CSharp.RoleRef right)
+  method public static bool op_Inequality(Authzn.CSharp.RoleRef left, Authzn.CSharp.RoleRef right)
+  method public void Deconstruct(out string Value)
+
+abstract class Authzn.CSharp.RoleStore : Authzn.IRoleStore
+  ctor protected()
+  method public abstract Task<Authzn.CSharp.Role?> GetRoleAsync(Authzn.CSharp.RoleRef id, CancellationToken cancellationToken)
+
+abstract class Authzn.CSharp.ScopeConstraint : IEquatable<Authzn.CSharp.ScopeConstraint>
+  ctor protected(Authzn.CSharp.ScopeConstraint original)
+  property protected virtual Type EqualityContract { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract Authzn.CSharp.ScopeConstraint <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static bool op_Equality(Authzn.CSharp.ScopeConstraint? left, Authzn.CSharp.ScopeConstraint? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeConstraint? left, Authzn.CSharp.ScopeConstraint? right)
+  method public virtual bool Equals(Authzn.CSharp.ScopeConstraint? other)
+
+sealed class Authzn.CSharp.ScopeConstraint.Everything : Authzn.CSharp.ScopeConstraint, IEquatable<Authzn.CSharp.ScopeConstraint.Everything>, IEquatable<Authzn.CSharp.ScopeConstraint>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.ScopeConstraint.Everything? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.ScopeConstraint? other)
+  method public static bool op_Equality(Authzn.CSharp.ScopeConstraint.Everything? left, Authzn.CSharp.ScopeConstraint.Everything? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeConstraint.Everything? left, Authzn.CSharp.ScopeConstraint.Everything? right)
+  method public virtual Authzn.CSharp.ScopeConstraint.Everything <Clone>$()
+
+sealed class Authzn.CSharp.ScopeConstraint.Nothing : Authzn.CSharp.ScopeConstraint, IEquatable<Authzn.CSharp.ScopeConstraint.Nothing>, IEquatable<Authzn.CSharp.ScopeConstraint>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.ScopeConstraint.Nothing? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.ScopeConstraint? other)
+  method public static bool op_Equality(Authzn.CSharp.ScopeConstraint.Nothing? left, Authzn.CSharp.ScopeConstraint.Nothing? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeConstraint.Nothing? left, Authzn.CSharp.ScopeConstraint.Nothing? right)
+  method public virtual Authzn.CSharp.ScopeConstraint.Nothing <Clone>$()
+
+sealed class Authzn.CSharp.ScopeConstraint.Restricted : Authzn.CSharp.ScopeConstraint, IEquatable<Authzn.CSharp.ScopeConstraint.Restricted>, IEquatable<Authzn.CSharp.ScopeConstraint>
+  ctor public(IReadOnlyList<IReadOnlyDictionary<string, Authzn.CSharp.ScopeValueSet>> Clauses)
+  property protected override Type EqualityContract { get; }
+  property public IReadOnlyList<IReadOnlyDictionary<string, Authzn.CSharp.ScopeValueSet>> Clauses { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.ScopeConstraint.Restricted? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.ScopeConstraint? other)
+  method public static bool op_Equality(Authzn.CSharp.ScopeConstraint.Restricted? left, Authzn.CSharp.ScopeConstraint.Restricted? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeConstraint.Restricted? left, Authzn.CSharp.ScopeConstraint.Restricted? right)
+  method public virtual Authzn.CSharp.ScopeConstraint.Restricted <Clone>$()
+  method public void Deconstruct(out IReadOnlyList<IReadOnlyDictionary<string, Authzn.CSharp.ScopeValueSet>> Clauses)
+
+static class Authzn.CSharp.ScopeMarkers
+  const public string Hierarchy = "hierarchy"
+  const public string Principal = "principal"
+
+abstract class Authzn.CSharp.ScopeValue : IEquatable<Authzn.CSharp.ScopeValue>
+  ctor protected(Authzn.CSharp.ScopeValue original)
+  property protected virtual Type EqualityContract { get; }
+  property public static Authzn.CSharp.ScopeValue Hierarchy { get; }
+  property public static Authzn.CSharp.ScopeValue Principal { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract Authzn.CSharp.ScopeValue <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public sealed override string ToString()
+  method public static Authzn.CSharp.ScopeValue Parse(string text)
+  method public static bool op_Equality(Authzn.CSharp.ScopeValue? left, Authzn.CSharp.ScopeValue? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeValue? left, Authzn.CSharp.ScopeValue? right)
+  method public virtual bool Equals(Authzn.CSharp.ScopeValue? other)
+
+sealed class Authzn.CSharp.ScopeValue.Literal : Authzn.CSharp.ScopeValue, IEquatable<Authzn.CSharp.ScopeValue.Literal>, IEquatable<Authzn.CSharp.ScopeValue>
+  ctor public(string value)
+  property protected override Type EqualityContract { get; }
+  property public string Value { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.ScopeValue.Literal? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public sealed override bool Equals(Authzn.CSharp.ScopeValue? other)
+  method public static bool op_Equality(Authzn.CSharp.ScopeValue.Literal? left, Authzn.CSharp.ScopeValue.Literal? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeValue.Literal? left, Authzn.CSharp.ScopeValue.Literal? right)
+  method public virtual Authzn.CSharp.ScopeValue.Literal <Clone>$()
+
+sealed class Authzn.CSharp.ScopeValue.Marker : Authzn.CSharp.ScopeValue, IEquatable<Authzn.CSharp.ScopeValue.Marker>, IEquatable<Authzn.CSharp.ScopeValue>
+  ctor public(string name)
+  property protected override Type EqualityContract { get; }
+  property public string Name { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.ScopeValue.Marker? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public sealed override bool Equals(Authzn.CSharp.ScopeValue? other)
+  method public static bool op_Equality(Authzn.CSharp.ScopeValue.Marker? left, Authzn.CSharp.ScopeValue.Marker? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeValue.Marker? left, Authzn.CSharp.ScopeValue.Marker? right)
+  method public virtual Authzn.CSharp.ScopeValue.Marker <Clone>$()
+
+abstract class Authzn.CSharp.ScopeValueResolver : Authzn.IScopeValueEnumerator, Authzn.IScopeValueResolver
+  ctor protected()
+  method public abstract ValueTask<bool> AdmitsAsync(Authzn.CSharp.PrincipalRef principal, string scopeKey, string marker, string requestValue, CancellationToken cancellationToken)
+  method public virtual ValueTask<Authzn.CSharp.ScopeValueSet?> EnumerateScopeAsync(Authzn.CSharp.PrincipalRef principal, string scopeKey, string marker, CancellationToken cancellationToken)
+
+abstract class Authzn.CSharp.ScopeValueSet : IEquatable<Authzn.CSharp.ScopeValueSet>
+  ctor protected(Authzn.CSharp.ScopeValueSet original)
+  property protected virtual Type EqualityContract { get; }
+  property public static Authzn.CSharp.ScopeValueSet Anything { get; }
+  method protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+  method public abstract Authzn.CSharp.ScopeValueSet <Clone>$()
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public static Authzn.CSharp.ScopeValueSet From(IEnumerable<string> values)
+  method public static bool op_Equality(Authzn.CSharp.ScopeValueSet? left, Authzn.CSharp.ScopeValueSet? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeValueSet? left, Authzn.CSharp.ScopeValueSet? right)
+  method public virtual bool Equals(Authzn.CSharp.ScopeValueSet? other)
+
+sealed class Authzn.CSharp.ScopeValueSet.Any : Authzn.CSharp.ScopeValueSet, IEquatable<Authzn.CSharp.ScopeValueSet.Any>, IEquatable<Authzn.CSharp.ScopeValueSet>
+  ctor public()
+  property protected override Type EqualityContract { get; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.ScopeValueSet.Any? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.ScopeValueSet? other)
+  method public static bool op_Equality(Authzn.CSharp.ScopeValueSet.Any? left, Authzn.CSharp.ScopeValueSet.Any? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeValueSet.Any? left, Authzn.CSharp.ScopeValueSet.Any? right)
+  method public virtual Authzn.CSharp.ScopeValueSet.Any <Clone>$()
+
+sealed class Authzn.CSharp.ScopeValueSet.Of : Authzn.CSharp.ScopeValueSet, IEquatable<Authzn.CSharp.ScopeValueSet.Of>, IEquatable<Authzn.CSharp.ScopeValueSet>
+  ctor public(IReadOnlySet<string> Values)
+  property protected override Type EqualityContract { get; }
+  property public IReadOnlySet<string> Values { get; init; }
+  method protected override bool PrintMembers(System.Text.StringBuilder builder)
+  method public bool Equals(Authzn.CSharp.ScopeValueSet.Of? other)
+  method public override bool Equals(object? obj)
+  method public override int GetHashCode()
+  method public override string ToString()
+  method public sealed override bool Equals(Authzn.CSharp.ScopeValueSet? other)
+  method public static bool op_Equality(Authzn.CSharp.ScopeValueSet.Of? left, Authzn.CSharp.ScopeValueSet.Of? right)
+  method public static bool op_Inequality(Authzn.CSharp.ScopeValueSet.Of? left, Authzn.CSharp.ScopeValueSet.Of? right)
+  method public virtual Authzn.CSharp.ScopeValueSet.Of <Clone>$()
+  method public void Deconstruct(out IReadOnlySet<string> Values)
+
+static class Authzn.CSharp.ServiceCollectionExtensions
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Action<Authzn.CSharp.AuthorizationBuilder> configure)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Authzn.CSharp.RoleStore roleStore, Authzn.CSharp.AssignmentStore assignmentStore, Authzn.CSharp.ScopeValueResolver? scopeResolver = null)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn<TRoleStore, TAssignmentStore>(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Action<IServiceProvider, Authzn.CSharp.AuthorizationBuilder>? configure = null)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddGrantPolicy<T>(this Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+

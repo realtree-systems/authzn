@@ -1,0 +1,54 @@
+<Project>
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Authors>RealTree Systems</Authors>
+    <Company>RealTree Systems</Company>
+    <Copyright>Copyright (c) 2026 RealTree Systems</Copyright>
+    <PackageProjectUrl>https://github.com/RealTree-Systems/authzn</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/RealTree-Systems/authzn</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <!-- MinVer versions the packages from git tags such as v1.0.0-rc.1. A commit after a pre-release
+         tag gets that version plus the commit height (1.0.0-rc.1.3); a commit after a release tag
+         gets the next patch as an alpha (1.0.1-alpha.0.3); with no tag, 1.0.0-alpha.0.N. -->
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+    <MinVerDefaultPreReleaseIdentifiers>alpha.0</MinVerDefaultPreReleaseIdentifiers>
+  </PropertyGroup>
+
+  <!-- Normalises paths in PDBs and packages on CI so the same commit builds the same package. -->
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- F# projects fail the build on an incomplete match (FS0025), a match arm no value can reach
+       (FS0026), and an uppercase pattern identifier that binds a variable instead of naming a
+       union case (FS0049). -->
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
+    <WarningsAsErrors>$(WarningsAsErrors);FS0025;FS0026;FS0049</WarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- The packages depend on FSharp.Core 6.0.7 or later, so consumers are not forced onto a newer
+       one. 6.0 is the lowest the code compiles against (the task builder arrived in 6.0), and 6.0.7
+       is its last patch: a consumer with no other FSharp.Core reference gets exactly this version.
+       The F# tests build against it too, so the floor is the version the tests run on. -->
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
+    <AuthznFSharpCoreVersion Condition="'$(AuthznFSharpCoreVersion)' == ''">6.0.7</AuthznFSharpCoreVersion>
+    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
+    <PackageReference Include="FSharp.Core" Version="$(AuthznFSharpCoreVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MinVer" Version="5.0.0" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Authzn</PackageId>
+    <RootNamespace>Authzn</RootNamespace>
+    <Description>A lightweight RBAC/ABAC authorization engine for .NET applications.</Description>
+    <PackageTags>authorization;rbac;abac;permissions;fsharp;access-control;role-based;scope;policy</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Types.fs" />
+    <Compile Include="Permissions.fs" />
+    <Compile Include="Stores.fs" />
+    <Compile Include="Engine.fs" />
+    <Compile Include="Builder.fs" />
+    <Compile Include="ServiceCollectionExtensions.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
