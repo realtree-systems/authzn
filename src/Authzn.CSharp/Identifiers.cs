@@ -1,6 +1,6 @@
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// Identifies a principal (user, service, or group). Converts implicitly from <see cref="string"/>

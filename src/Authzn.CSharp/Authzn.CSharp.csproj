@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Authzn.CSharp</PackageId>
-    <RootNamespace>Authzn.CSharp</RootNamespace>
+    <PackageId>RealTree.Authzn.CSharp</PackageId>
+    <AssemblyName>RealTree.Authzn.CSharp</AssemblyName>
+    <RootNamespace>RealTree.Authzn.CSharp</RootNamespace>
     <Description>Idiomatic C# API for the Authzn RBAC/ABAC authorization engine. Fluent builders, plain Func conditions, nullable types, and dictionaries instead of F# Map/option/func.</Description>
     <PackageTags>authorization;rbac;abac;permissions;csharp;access-control;role-based;scope;policy</PackageTags>
     <PackageReadmeFile>README.CSharp.md</PackageReadmeFile>
@@ -30,7 +31,7 @@
   </ItemGroup>
 
   <!-- Packing turns the ProjectReference to Authzn.fsproj into a versioned NuGet dependency on
-       the Authzn package. Both projects take their version from MinVer through
+       the RealTree.Authzn package. Both projects take their version from MinVer through
        Directory.Build.props, so both packages get the same version from the same git tag. -->
 
 </Project>

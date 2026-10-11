@@ -1,10 +1,10 @@
-module Authzn.Tests.ServiceCollectionTests
+module RealTree.Authzn.Tests.ServiceCollectionTests
 
 open System.Threading
 open Xunit
 open Microsoft.Extensions.DependencyInjection
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 [<Fact>]
 let ``AddAuthzn registers AuthorizationHost as singleton`` () =

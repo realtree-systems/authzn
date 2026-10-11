@@ -1,11 +1,11 @@
-module Authzn.Tests.ConcurrencyTests
+module RealTree.Authzn.Tests.ConcurrencyTests
 
 open System
 open System.Threading
 open System.Threading.Tasks
 open Xunit
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 let private count = 2000
 

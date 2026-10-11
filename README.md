@@ -13,10 +13,10 @@ The authorization model is purely additive. Permissions are granted through role
 Requires .NET 10 or later. The package depends on `FSharp.Core` 6.0.7 or later and `Microsoft.Extensions.DependencyInjection.Abstractions` 8.0.0 or later, so it does not force newer versions on your project.
 
 ```bash
-dotnet add package Authzn
+dotnet add package RealTree.Authzn
 ```
 
-C# projects should use [Authzn.CSharp](https://www.nuget.org/packages/Authzn.CSharp), which wraps the same engine in an idiomatic C# API; see [README.CSharp.md](https://github.com/RealTree-Systems/authzn/blob/main/README.CSharp.md).
+C# projects should use [RealTree.Authzn.CSharp](https://www.nuget.org/packages/RealTree.Authzn.CSharp), which wraps the same engine in an idiomatic C# API; see [README.CSharp.md](https://github.com/RealTree-Systems/authzn/blob/main/README.CSharp.md).
 
 ## Core Concepts
 
@@ -137,7 +137,7 @@ A principal may perform an action when any of its active assignments is to a rol
 
 ```fsharp
 open System.Threading
-open Authzn
+open RealTree.Authzn
 
 let host =
     AuthorizationConfig.defaultConfig
@@ -401,7 +401,7 @@ test can move the clock instead of waiting:
 ```fsharp
 open System
 open System.Threading
-open Authzn
+open RealTree.Authzn
 
 /// A clock the test sets by hand.
 type FixedClock(start: DateTimeOffset) =
@@ -688,7 +688,7 @@ match decision with
 ### Registration
 
 ```fsharp
-open Authzn
+open RealTree.Authzn
 open Microsoft.Extensions.DependencyInjection
 
 services.AddAuthzn(fun config ->
@@ -1131,7 +1131,7 @@ dotnet run --project benchmarks/Authzn.Benchmarks/Authzn.Benchmarks.fsproj -c Re
 
 ## Development
 
-Build and test with `dotnet build Authzn.slnx` and `dotnet test Authzn.slnx` (.NET 10 SDK). The public API of each package is frozen in `api/Authzn.txt` and `api/Authzn.CSharp.txt`: a change to the public surface fails `PublicApiTests`, which writes the new surface to `api/<assembly>.received.txt`. If the change is intended, replace the listing with that file and commit it with the change, so the API diff shows in review.
+Build and test with `dotnet build Authzn.slnx` and `dotnet test Authzn.slnx` (.NET 10 SDK). The public API of each package is frozen in `api/RealTree.Authzn.txt` and `api/RealTree.Authzn.CSharp.txt`: a change to the public surface fails `PublicApiTests`, which writes the new surface to `api/<assembly>.received.txt`. If the change is intended, replace the listing with that file and commit it with the change, so the API diff shows in review.
 
 ## License
 

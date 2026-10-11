@@ -1,19 +1,19 @@
 # Authzn.CSharp
 
-An idiomatic C# API for [Authzn](https://www.nuget.org/packages/Authzn), a lightweight role-based access control (RBAC) engine for .NET with optional attribute-based (ABAC) conditions.
+An idiomatic C# API for [Authzn](https://www.nuget.org/packages/RealTree.Authzn), a lightweight role-based access control (RBAC) engine for .NET with optional attribute-based (ABAC) conditions.
 
 `Authzn` is written in F#. Consuming it directly from C# means working with `FSharpMap`, `FSharpOption`, and `FSharpFunc`. **Authzn.CSharp** wraps the same engine in a surface that feels native to C#: fluent builders, plain `Func<>` conditions, nullable types, dictionaries, and PascalCase methods. No `FSharp*` type ever appears in your code.
 
 ```bash
-dotnet add package Authzn.CSharp
+dotnet add package RealTree.Authzn.CSharp
 ```
 
-Requires .NET 10 or later. The package depends on `Authzn`, so the core engine comes with it.
+Requires .NET 10 or later. The package depends on `RealTree.Authzn`, so the core engine comes with it.
 
 ## Quick start
 
 ```csharp
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 
 var authorizer = new AuthorizationBuilder()
     .AddRole("reader", "Reader", role => role.GrantEverywhere("documents:read"))
@@ -161,7 +161,7 @@ await auth.AuthorizeAsync("ivan", "deploy:run"); // Allowed
 The authorizer reads the current time from a `TimeProvider`: `TimeProvider.System` unless `AuthorizationBuilder.UseTimeProvider` sets another. That time decides which assignments and grants are active, so a test can check expiry and assignment windows without waiting. `FakeTimeProvider`, from the `Microsoft.Extensions.TimeProvider.Testing` package, holds a fixed time until the test advances it:
 
 ```csharp
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.Extensions.Time.Testing;
 
 var clock = new FakeTimeProvider(new DateTimeOffset(2026, 3, 1, 9, 0, 0, TimeSpan.Zero));
@@ -341,7 +341,7 @@ if (sources.TryGetValue("invoices:approve", out var grants))
 ## Dependency injection
 
 ```csharp
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 
 services.AddAuthzn(b => b
@@ -392,7 +392,7 @@ Derive from `RoleStore` and `AssignmentStore` - they return nullable types and `
 A store replaces the builder's in-memory store: with `UseRoleStore`, the builder's `AddRole` calls are ignored, and with `UseAssignmentStore`, its `Assign`, `AssignForWindow` and `Revoke` calls are ignored.
 
 ```csharp
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.EntityFrameworkCore;
 
 public sealed class DbRoleStore(IDbContextFactory<MyDbContext> contexts) : RoleStore
@@ -434,7 +434,7 @@ public sealed class DbRoleStore(IDbContextFactory<MyDbContext> contexts) : RoleS
 Register the stores with `AddAuthzn<TRoleStore, TAssignmentStore>`. The container creates them, so they take their dependencies from it. Each store type is registered as a singleton unless the container already has a registration for it. The engine calls the stores from concurrent requests, so a store must not hold a scoped dependency such as a `DbContext`; that is why `DbRoleStore` takes an `IDbContextFactory`. The authorizer is built when it is first resolved, and the optional callback then receives the service provider and the builder, for a scope resolver or a clock from the container. A `DbAssignmentStore` follows the same pattern as `DbRoleStore`:
 
 ```csharp
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -522,7 +522,7 @@ The values are stable, so a stored reason keeps its meaning. No member is zero, 
 
 ## Relationship to the F# package
 
-`Authzn.CSharp` is a thin facade: it converts arguments and results between C# and F# types and delegates every decision to the `Authzn` engine, reimplementing no authorization logic. The two packages are released together with the same version number. F# consumers should use [`Authzn`](https://www.nuget.org/packages/Authzn) directly; see the [Authzn README](https://github.com/RealTree-Systems/authzn#readme) for the F# API.
+`RealTree.Authzn.CSharp` is a thin facade: it converts arguments and results between C# and F# types and delegates every decision to the `Authzn` engine, reimplementing no authorization logic. The two packages are released together with the same version number. F# consumers should use [`RealTree.Authzn`](https://www.nuget.org/packages/RealTree.Authzn) directly; see the [Authzn README](https://github.com/RealTree-Systems/authzn#readme) for the F# API.
 
 ## License
 

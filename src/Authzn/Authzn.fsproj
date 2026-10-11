@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Authzn</PackageId>
-    <RootNamespace>Authzn</RootNamespace>
+    <PackageId>RealTree.Authzn</PackageId>
+    <AssemblyName>RealTree.Authzn</AssemblyName>
+    <RootNamespace>RealTree.Authzn</RootNamespace>
     <Description>A lightweight RBAC/ABAC authorization engine for .NET applications.</Description>
     <PackageTags>authorization;rbac;abac;permissions;fsharp;access-control;role-based;scope;policy</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>

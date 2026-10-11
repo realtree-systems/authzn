@@ -1,7 +1,7 @@
 using System;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// The entry point for configuring authorization. Add roles, assign them to principals, plug in

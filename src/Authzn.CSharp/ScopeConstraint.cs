@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.FSharp.Collections;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// The set of concrete values a scope key may take for a principal: either unbounded
@@ -39,7 +39,7 @@ public abstract record ScopeValueSet
     {
         { IsAnyValue: true } => Anything,
         Fs.ScopeValueSet.Values values => new Of(values.Item.ToHashSet()),
-        _ => throw new InvalidOperationException($"Unmapped Authzn.ScopeValueSet case '{value}'."),
+        _ => throw new InvalidOperationException($"Unmapped RealTree.Authzn.ScopeValueSet case '{value}'."),
     };
 }
 
@@ -73,6 +73,6 @@ public abstract record ScopeConstraint
                 .Select(clause => (IReadOnlyDictionary<string, ScopeValueSet>)
                     clause.ToDictionary(kv => kv.Key, kv => ScopeValueSet.FromFs(kv.Value)))
                 .ToList()),
-        _ => throw new InvalidOperationException($"Unmapped Authzn.ScopeConstraint case '{constraint}'."),
+        _ => throw new InvalidOperationException($"Unmapped RealTree.Authzn.ScopeConstraint case '{constraint}'."),
     };
 }

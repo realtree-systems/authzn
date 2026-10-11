@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Authzn.CSharp.Tests;
+namespace RealTree.Authzn.CSharp.Tests;
 
 public class DependencyInjectionTests
 {
@@ -35,9 +35,9 @@ public class DependencyInjectionTests
             .BuildServiceProvider();
 
         Assert.NotNull(provider.GetService<Authorizer>());
-        Assert.NotNull(provider.GetService<global::Authzn.AuthorizationHost>());
-        Assert.NotNull(provider.GetService<global::Authzn.AuthorizationEngine>());
-        Assert.NotNull(provider.GetService<global::Authzn.IGrantPolicyChain>());
+        Assert.NotNull(provider.GetService<global::RealTree.Authzn.AuthorizationHost>());
+        Assert.NotNull(provider.GetService<global::RealTree.Authzn.AuthorizationEngine>());
+        Assert.NotNull(provider.GetService<global::RealTree.Authzn.IGrantPolicyChain>());
 
         var decision = await provider.GetRequiredService<Authorizer>().AuthorizeAsync("u", "docs:read");
         Assert.True(decision.IsAllowed);

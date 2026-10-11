@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Xunit;
 
-namespace Authzn.CSharp.Tests;
+namespace RealTree.Authzn.CSharp.Tests;
 
 /// <summary>
 /// Runs scenarios 1 to 7 of samples/Authzn.Sample.CSharp/Program.cs, plus a few edge cases, through

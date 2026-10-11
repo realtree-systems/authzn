@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <!-- AuthznVersion is passed by run.sh: the version of the packages under test. -->
-    <PackageReference Include="Authzn.CSharp" Version="$(AuthznVersion)" />
+    <PackageReference Include="RealTree.Authzn.CSharp" Version="$(AuthznVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
   </ItemGroup>
 

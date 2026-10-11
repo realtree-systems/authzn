@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Authzn.CSharp.Tests;
+namespace RealTree.Authzn.CSharp.Tests;
 
 public class ContainerStoreAndGrantRevocationTests
 {
@@ -61,7 +61,7 @@ public class ContainerStoreAndGrantRevocationTests
         // The grant expires at the container's time, so the configured clock is in use.
         Assert.Equal(new AuthorizationDecision.Denied(DenyReason.GrantNotActive), await auth.AuthorizeAsync("alice", "docs:read"));
         Assert.Same(auth, provider.GetRequiredService<Authorizer>());
-        Assert.Same(provider.GetRequiredService<global::Authzn.AuthorizationHost>().Engine, provider.GetRequiredService<global::Authzn.AuthorizationEngine>());
+        Assert.Same(provider.GetRequiredService<global::RealTree.Authzn.AuthorizationHost>().Engine, provider.GetRequiredService<global::RealTree.Authzn.AuthorizationEngine>());
         Assert.NotNull(provider.GetRequiredService<GrantPolicyChain>());
         Assert.Equal(1, configured);
     }

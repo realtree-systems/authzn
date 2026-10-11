@@ -1,7 +1,7 @@
 using System;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// One value in a grant's scope: a <see cref="Literal"/> the requested value must equal exactly, or
@@ -70,6 +70,6 @@ public abstract record ScopeValue
     {
         Fs.ScopeValue.Literal literal => new Literal(literal.Item),
         Fs.ScopeValue.Marker marker => new Marker(marker.Item.Value),
-        _ => throw new InvalidOperationException($"Unmapped Authzn.ScopeValue case '{value}'."),
+        _ => throw new InvalidOperationException($"Unmapped RealTree.Authzn.ScopeValue case '{value}'."),
     };
 }

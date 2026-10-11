@@ -1,7 +1,7 @@
 using System;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// The link between a principal and a role, optionally bounded by a validity window and

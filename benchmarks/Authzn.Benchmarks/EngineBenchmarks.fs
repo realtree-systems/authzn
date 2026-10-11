@@ -1,9 +1,9 @@
-module Authzn.Benchmarks.EngineBenchmarks
+module RealTree.Authzn.Benchmarks.EngineBenchmarks
 
 open System
 open System.Threading
 open BenchmarkDotNet.Attributes
-open Authzn
+open RealTree.Authzn
 
 let private buildEngine (roles: Role list) (assignments: Assignment list) resolver =
     let roleStore = InMemoryRoleStore()

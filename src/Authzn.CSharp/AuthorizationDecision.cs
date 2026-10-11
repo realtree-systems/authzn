@@ -1,7 +1,7 @@
 using System;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// The reason an authorization request was denied, carried by <see cref="AuthorizationDecision.Denied"/>.
@@ -63,6 +63,6 @@ public abstract record AuthorizationDecision
         Fs.AuthorizationDecision.Allowed allowed =>
             new Allowed(RoleRef.FromFs(allowed.Role), PermissionPattern.FromFs(allowed.Permission)),
         Fs.AuthorizationDecision.Denied denied => new Denied(Interop.FromDenyReason(denied.Reason)),
-        _ => throw new InvalidOperationException($"Unmapped Authzn.AuthorizationDecision case '{decision}'."),
+        _ => throw new InvalidOperationException($"Unmapped RealTree.Authzn.AuthorizationDecision case '{decision}'."),
     };
 }

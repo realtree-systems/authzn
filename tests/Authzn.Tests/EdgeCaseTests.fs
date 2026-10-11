@@ -1,10 +1,10 @@
-module Authzn.Tests.EdgeCaseTests
+module RealTree.Authzn.Tests.EdgeCaseTests
 
 open System
 open System.Threading
 open Xunit
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 [<Fact>]
 let ``denies when assignment references a role not in the store`` () =

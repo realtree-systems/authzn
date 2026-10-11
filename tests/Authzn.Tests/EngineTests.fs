@@ -1,10 +1,10 @@
-module Authzn.Tests.EngineTests
+module RealTree.Authzn.Tests.EngineTests
 
 open System
 open System.Threading
 open Xunit
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 [<Fact>]
 let ``allows when principal has matching permission`` () =

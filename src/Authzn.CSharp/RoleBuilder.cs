@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.FSharp.Collections;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// A fluent builder for a <see cref="Role"/>. Add a confined grant (a scope, an ABAC condition, or

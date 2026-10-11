@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Microsoft.FSharp.Collections;
 using Xunit;
 
-namespace Authzn.CSharp.Tests;
+namespace RealTree.Authzn.CSharp.Tests;
 
 /// <summary>
 /// Tests the internal conversion layer (<c>Interop</c>, <c>ToFs</c>, <c>FromFs</c>) directly. The
@@ -118,18 +118,18 @@ public class ConversionTests
     [Fact]
     public void DenyReason_mapping_is_exhaustive_and_correct()
     {
-        Assert.Equal(DenyReason.NoAssignments, Interop.FromDenyReason(global::Authzn.DenyReason.NoAssignments));
-        Assert.Equal(DenyReason.NoMatchingPermission, Interop.FromDenyReason(global::Authzn.DenyReason.NoMatchingPermission));
-        Assert.Equal(DenyReason.ScopeMismatch, Interop.FromDenyReason(global::Authzn.DenyReason.ScopeMismatch));
-        Assert.Equal(DenyReason.AssignmentNotActive, Interop.FromDenyReason(global::Authzn.DenyReason.AssignmentNotActive));
-        Assert.Equal(DenyReason.GrantNotActive, Interop.FromDenyReason(global::Authzn.DenyReason.GrantNotActive));
-        Assert.Equal(DenyReason.AttributeEvaluationFailed, Interop.FromDenyReason(global::Authzn.DenyReason.AttributeEvaluationFailed));
+        Assert.Equal(DenyReason.NoAssignments, Interop.FromDenyReason(global::RealTree.Authzn.DenyReason.NoAssignments));
+        Assert.Equal(DenyReason.NoMatchingPermission, Interop.FromDenyReason(global::RealTree.Authzn.DenyReason.NoMatchingPermission));
+        Assert.Equal(DenyReason.ScopeMismatch, Interop.FromDenyReason(global::RealTree.Authzn.DenyReason.ScopeMismatch));
+        Assert.Equal(DenyReason.AssignmentNotActive, Interop.FromDenyReason(global::RealTree.Authzn.DenyReason.AssignmentNotActive));
+        Assert.Equal(DenyReason.GrantNotActive, Interop.FromDenyReason(global::RealTree.Authzn.DenyReason.GrantNotActive));
+        Assert.Equal(DenyReason.AttributeEvaluationFailed, Interop.FromDenyReason(global::RealTree.Authzn.DenyReason.AttributeEvaluationFailed));
     }
 
     [Fact]
     public void DenyReason_enum_matches_the_fsharp_union_case_set()
     {
-        var tags = typeof(global::Authzn.DenyReason).GetNestedType("Tags");
+        var tags = typeof(global::RealTree.Authzn.DenyReason).GetNestedType("Tags");
         Assert.NotNull(tags);
 
         var fsharpCases = tags!
@@ -165,11 +165,11 @@ public class ConversionTests
 
     [Fact]
     public void AuthorizationDecision_matches_the_fsharp_union_case_set() =>
-        Assert.Equal(FSharpCases(typeof(global::Authzn.AuthorizationDecision)), CSharpCases(typeof(AuthorizationDecision)));
+        Assert.Equal(FSharpCases(typeof(global::RealTree.Authzn.AuthorizationDecision)), CSharpCases(typeof(AuthorizationDecision)));
 
     [Fact]
     public void ScopeConstraint_matches_the_fsharp_union_case_set() =>
-        Assert.Equal(FSharpCases(typeof(global::Authzn.ScopeConstraint)), CSharpCases(typeof(ScopeConstraint)));
+        Assert.Equal(FSharpCases(typeof(global::RealTree.Authzn.ScopeConstraint)), CSharpCases(typeof(ScopeConstraint)));
 
     [Fact]
     public void ScopeValueSet_matches_the_fsharp_union_case_set()
@@ -181,24 +181,24 @@ public class ConversionTests
             ["Values"] = nameof(ScopeValueSet.Of),
         };
 
-        Assert.Equal(FSharpCases(typeof(global::Authzn.ScopeValueSet)), mapping.Keys.ToHashSet());
+        Assert.Equal(FSharpCases(typeof(global::RealTree.Authzn.ScopeValueSet)), mapping.Keys.ToHashSet());
         Assert.Equal(CSharpCases(typeof(ScopeValueSet)), mapping.Values.ToHashSet());
     }
 
     [Fact]
     public void GrantPolicyDecision_matches_the_fsharp_union_case_set() =>
-        Assert.Equal(FSharpCases(typeof(global::Authzn.GrantPolicyDecision)), CSharpCases(typeof(GrantPolicyDecision)));
+        Assert.Equal(FSharpCases(typeof(global::RealTree.Authzn.GrantPolicyDecision)), CSharpCases(typeof(GrantPolicyDecision)));
 
     [Fact]
     public void AuthorizationDecision_maps_every_case()
     {
-        var allowed = AuthorizationDecision.FromFs(global::Authzn.AuthorizationDecision.NewAllowed(
-            global::Authzn.RoleId.NewRoleId("r"), global::Authzn.PermissionPatternModule.parse("a:b")));
+        var allowed = AuthorizationDecision.FromFs(global::RealTree.Authzn.AuthorizationDecision.NewAllowed(
+            global::RealTree.Authzn.RoleId.NewRoleId("r"), global::RealTree.Authzn.PermissionPatternModule.parse("a:b")));
         Assert.Equal(new AuthorizationDecision.Allowed("r", PermissionPattern.Parse("a:b")), allowed);
         Assert.True(allowed.IsAllowed);
 
         var denied = AuthorizationDecision.FromFs(
-            global::Authzn.AuthorizationDecision.NewDenied(global::Authzn.DenyReason.ScopeMismatch));
+            global::RealTree.Authzn.AuthorizationDecision.NewDenied(global::RealTree.Authzn.DenyReason.ScopeMismatch));
         Assert.Equal(new AuthorizationDecision.Denied(DenyReason.ScopeMismatch), denied);
         Assert.False(denied.IsAllowed);
     }
@@ -206,22 +206,22 @@ public class ConversionTests
     [Fact]
     public void ScopeValueSet_maps_every_case()
     {
-        Assert.IsType<ScopeValueSet.Any>(ScopeValueSet.FromFs(global::Authzn.ScopeValueSet.AnyValue));
+        Assert.IsType<ScopeValueSet.Any>(ScopeValueSet.FromFs(global::RealTree.Authzn.ScopeValueSet.AnyValue));
 
         var of = Assert.IsType<ScopeValueSet.Of>(
-            ScopeValueSet.FromFs(global::Authzn.ScopeValueSet.NewValues(SetModule.OfSeq(new[] { "a" }))));
+            ScopeValueSet.FromFs(global::RealTree.Authzn.ScopeValueSet.NewValues(SetModule.OfSeq(new[] { "a" }))));
         Assert.Equal(new[] { "a" }, of.Values);
     }
 
     [Fact]
     public void ScopeConstraint_maps_every_case()
     {
-        Assert.IsType<ScopeConstraint.Everything>(ScopeConstraint.FromFs(global::Authzn.ScopeConstraint.Everything));
-        Assert.IsType<ScopeConstraint.Nothing>(ScopeConstraint.FromFs(global::Authzn.ScopeConstraint.Nothing));
+        Assert.IsType<ScopeConstraint.Everything>(ScopeConstraint.FromFs(global::RealTree.Authzn.ScopeConstraint.Everything));
+        Assert.IsType<ScopeConstraint.Nothing>(ScopeConstraint.FromFs(global::RealTree.Authzn.ScopeConstraint.Nothing));
 
-        var clause = MapModule.OfSeq(new[] { Tuple.Create("tenant", global::Authzn.ScopeValueSet.AnyValue) });
+        var clause = MapModule.OfSeq(new[] { Tuple.Create("tenant", global::RealTree.Authzn.ScopeValueSet.AnyValue) });
         var restricted = Assert.IsType<ScopeConstraint.Restricted>(
-            ScopeConstraint.FromFs(global::Authzn.ScopeConstraint.NewRestricted(ListModule.OfSeq(new[] { clause }))));
+            ScopeConstraint.FromFs(global::RealTree.Authzn.ScopeConstraint.NewRestricted(ListModule.OfSeq(new[] { clause }))));
         Assert.IsType<ScopeValueSet.Any>(Assert.Single(restricted.Clauses)["tenant"]);
     }
 
@@ -234,13 +234,13 @@ public class ConversionTests
             ["Exactly"] = nameof(PermissionSegment.Exactly),
         };
 
-        Assert.Equal(FSharpCases(typeof(global::Authzn.Segment<string>)), mapping.Keys.ToHashSet());
+        Assert.Equal(FSharpCases(typeof(global::RealTree.Authzn.Segment<string>)), mapping.Keys.ToHashSet());
         Assert.Equal(CSharpCases(typeof(PermissionSegment)), mapping.Values.ToHashSet());
     }
 
     [Fact]
     public void ScopeValue_matches_the_fsharp_union_case_set() =>
-        Assert.Equal(FSharpCases(typeof(global::Authzn.ScopeValue)), CSharpCases(typeof(ScopeValue)));
+        Assert.Equal(FSharpCases(typeof(global::RealTree.Authzn.ScopeValue)), CSharpCases(typeof(ScopeValue)));
 
     [Fact]
     public void PermissionPattern_maps_every_segment_case()
@@ -259,7 +259,7 @@ public class ConversionTests
 
         Assert.Equal(literal, ScopeValue.FromFs(literal.ToFs()));
         Assert.Equal(marker, ScopeValue.FromFs(marker.ToFs()));
-        Assert.Equal(ScopeValue.Principal, ScopeValue.FromFs(global::Authzn.ScopeValueModule.principal));
+        Assert.Equal(ScopeValue.Principal, ScopeValue.FromFs(global::RealTree.Authzn.ScopeValueModule.principal));
 
         Assert.Equal("@@acme", literal.ToString());
         Assert.Equal(literal, ScopeValue.Parse(literal.ToString()));
@@ -293,9 +293,9 @@ public class ConversionTests
     }
 
     private static PermissionGrant Grant(string permission) =>
-        new(new global::Authzn.PermissionGrant(
-            global::Authzn.PermissionPatternModule.parse(permission),
-            MapModule.Empty<string, global::Authzn.ScopeValue>(),
+        new(new global::RealTree.Authzn.PermissionGrant(
+            global::RealTree.Authzn.PermissionPatternModule.parse(permission),
+            MapModule.Empty<string, global::RealTree.Authzn.ScopeValue>(),
             Interop.ToConditionOption(null),
-            global::Authzn.GrantMetadataModule.empty));
+            global::RealTree.Authzn.GrantMetadataModule.empty));
 }

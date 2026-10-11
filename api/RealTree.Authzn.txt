@@ -1,0 +1,563 @@
+sealed class RealTree.Authzn.ActionName : IComparable, IComparable<RealTree.Authzn.ActionName>, IEquatable<RealTree.Authzn.ActionName>, IStructuralComparable, IStructuralEquatable
+  property public string Value { get; }
+  method public bool Equals(RealTree.Authzn.ActionName obj)
+  method public bool Equals(RealTree.Authzn.ActionName obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.ActionName obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.ActionNameModule
+  method public static Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.ActionName> tryCreate(string value)
+  method public static RealTree.Authzn.ActionName create(string value)
+
+sealed class RealTree.Authzn.Assignment : IComparable, IComparable<RealTree.Authzn.Assignment>, IEquatable<RealTree.Authzn.Assignment>, IStructuralComparable, IStructuralEquatable
+  ctor public(RealTree.Authzn.PrincipalId principal, RealTree.Authzn.RoleId role, Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> notBefore, Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> notAfter, bool revoked)
+  property public Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> NotAfter { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> NotBefore { get; }
+  property public RealTree.Authzn.PrincipalId Principal { get; }
+  property public RealTree.Authzn.RoleId Role { get; }
+  property public bool Revoked { get; }
+  method public bool Equals(RealTree.Authzn.Assignment obj)
+  method public bool Equals(RealTree.Authzn.Assignment obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.Assignment obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.AssignmentModule
+  method public static RealTree.Authzn.Assignment create(RealTree.Authzn.PrincipalId principal, RealTree.Authzn.RoleId role)
+  method public static RealTree.Authzn.Assignment revoke(RealTree.Authzn.Assignment assignment)
+  method public static bool isActiveAt(DateTimeOffset now, RealTree.Authzn.Assignment assignment)
+
+sealed class RealTree.Authzn.AuthorizationConfig
+  method public override string ToString()
+
+static class RealTree.Authzn.AuthorizationConfigModule
+  property public static RealTree.Authzn.AuthorizationConfig defaultConfig { get; }
+  method public static RealTree.Authzn.AuthorizationConfig addRole(RealTree.Authzn.Role role, RealTree.Authzn.AuthorizationConfig config)
+  method public static RealTree.Authzn.AuthorizationConfig assign(string principal, string role, RealTree.Authzn.AuthorizationConfig config)
+  method public static RealTree.Authzn.AuthorizationConfig assignForWindow(string principal, string role, Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> notBefore, Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> notAfter, RealTree.Authzn.AuthorizationConfig config)
+  method public static RealTree.Authzn.AuthorizationConfig revoke(string principal, string role, RealTree.Authzn.AuthorizationConfig config)
+  method public static RealTree.Authzn.AuthorizationConfig useAssignmentStore(RealTree.Authzn.IAssignmentStore store, RealTree.Authzn.AuthorizationConfig config)
+  method public static RealTree.Authzn.AuthorizationConfig useRoleStore(RealTree.Authzn.IRoleStore store, RealTree.Authzn.AuthorizationConfig config)
+  method public static RealTree.Authzn.AuthorizationConfig useScopeResolver(RealTree.Authzn.IScopeValueResolver resolver, RealTree.Authzn.AuthorizationConfig config)
+  method public static RealTree.Authzn.AuthorizationConfig useTimeProvider(TimeProvider timeProvider, RealTree.Authzn.AuthorizationConfig config)
+
+abstract class RealTree.Authzn.AuthorizationDecision : IComparable, IComparable<RealTree.Authzn.AuthorizationDecision>, IEquatable<RealTree.Authzn.AuthorizationDecision>, IStructuralComparable, IStructuralEquatable
+  property public bool IsAllowed { get; }
+  property public bool IsDenied { get; }
+  property public int Tag { get; }
+  method public bool Equals(RealTree.Authzn.AuthorizationDecision obj)
+  method public bool Equals(RealTree.Authzn.AuthorizationDecision obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.AuthorizationDecision obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.AuthorizationDecision NewAllowed(RealTree.Authzn.RoleId role, RealTree.Authzn.PermissionPattern permission)
+  method public static RealTree.Authzn.AuthorizationDecision NewDenied(RealTree.Authzn.DenyReason reason)
+
+class RealTree.Authzn.AuthorizationDecision.Allowed : RealTree.Authzn.AuthorizationDecision, IComparable, IComparable<RealTree.Authzn.AuthorizationDecision>, IEquatable<RealTree.Authzn.AuthorizationDecision>, IStructuralComparable, IStructuralEquatable
+  property public RealTree.Authzn.PermissionPattern Permission { get; }
+  property public RealTree.Authzn.RoleId Role { get; }
+
+class RealTree.Authzn.AuthorizationDecision.Denied : RealTree.Authzn.AuthorizationDecision, IComparable, IComparable<RealTree.Authzn.AuthorizationDecision>, IEquatable<RealTree.Authzn.AuthorizationDecision>, IStructuralComparable, IStructuralEquatable
+  property public RealTree.Authzn.DenyReason Reason { get; }
+
+static class RealTree.Authzn.AuthorizationDecision.Tags
+  const public int Allowed = 0
+  const public int Denied = 1
+
+sealed class RealTree.Authzn.AuthorizationEngine
+  method public override string ToString()
+
+static class RealTree.Authzn.AuthorizationEngineModule
+  method public static RealTree.Authzn.AuthorizationEngine create(RealTree.Authzn.IRoleStore roleStore, RealTree.Authzn.IAssignmentStore assignmentStore)
+  method public static RealTree.Authzn.AuthorizationEngine withScopeResolver(RealTree.Authzn.IScopeValueResolver resolver, RealTree.Authzn.AuthorizationEngine engine)
+  method public static RealTree.Authzn.AuthorizationEngine withTimeProvider(TimeProvider timeProvider, RealTree.Authzn.AuthorizationEngine engine)
+
+class RealTree.Authzn.AuthorizationHost
+  property public RealTree.Authzn.AuthorizationEngine Engine { get; }
+  method public void AddAssignment(RealTree.Authzn.Assignment assignment)
+  method public void AddRole(RealTree.Authzn.Role role)
+  method public void ReinstateGrant(RealTree.Authzn.RoleId role, RealTree.Authzn.GrantKey grantKey)
+  method public void Revoke(RealTree.Authzn.PrincipalId principal, RealTree.Authzn.RoleId role)
+  method public void RevokeGrant(RealTree.Authzn.RoleId role, RealTree.Authzn.GrantKey grantKey, RealTree.Authzn.PrincipalId revokedBy)
+
+static class RealTree.Authzn.AuthorizationHostModule
+  method public static RealTree.Authzn.AuthorizationHost build(RealTree.Authzn.AuthorizationConfig config)
+
+sealed class RealTree.Authzn.AuthorizationRequest : IEquatable<RealTree.Authzn.AuthorizationRequest>, IStructuralEquatable
+  ctor public(RealTree.Authzn.PrincipalId principal, RealTree.Authzn.PermissionId permission, Microsoft.FSharp.Collections.FSharpMap<string, string> scope, Microsoft.FSharp.Collections.FSharpMap<string, object> attributes)
+  property public Microsoft.FSharp.Collections.FSharpMap<string, object> Attributes { get; }
+  property public Microsoft.FSharp.Collections.FSharpMap<string, string> Scope { get; }
+  property public RealTree.Authzn.PermissionId Permission { get; }
+  property public RealTree.Authzn.PrincipalId Principal { get; }
+  method public bool Equals(RealTree.Authzn.AuthorizationRequest obj)
+  method public bool Equals(RealTree.Authzn.AuthorizationRequest obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.AuthorizationRequestModule
+  method public static RealTree.Authzn.AuthorizationRequest create(RealTree.Authzn.PrincipalId principal, RealTree.Authzn.PermissionId permission)
+  method public static RealTree.Authzn.AuthorizationRequest withAttributes(Microsoft.FSharp.Collections.FSharpMap<string, object> attributes, RealTree.Authzn.AuthorizationRequest request)
+  method public static RealTree.Authzn.AuthorizationRequest withScope(Microsoft.FSharp.Collections.FSharpMap<string, string> scope, RealTree.Authzn.AuthorizationRequest request)
+
+sealed class RealTree.Authzn.DenyReason : IComparable, IComparable<RealTree.Authzn.DenyReason>, IEquatable<RealTree.Authzn.DenyReason>, IStructuralComparable, IStructuralEquatable
+  property public bool IsAssignmentNotActive { get; }
+  property public bool IsAttributeEvaluationFailed { get; }
+  property public bool IsGrantNotActive { get; }
+  property public bool IsNoAssignments { get; }
+  property public bool IsNoMatchingPermission { get; }
+  property public bool IsScopeMismatch { get; }
+  property public int Tag { get; }
+  property public static RealTree.Authzn.DenyReason AssignmentNotActive { get; }
+  property public static RealTree.Authzn.DenyReason AttributeEvaluationFailed { get; }
+  property public static RealTree.Authzn.DenyReason GrantNotActive { get; }
+  property public static RealTree.Authzn.DenyReason NoAssignments { get; }
+  property public static RealTree.Authzn.DenyReason NoMatchingPermission { get; }
+  property public static RealTree.Authzn.DenyReason ScopeMismatch { get; }
+  method public bool Equals(RealTree.Authzn.DenyReason obj)
+  method public bool Equals(RealTree.Authzn.DenyReason obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.DenyReason obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.DenyReason.Tags
+  const public int AssignmentNotActive = 3
+  const public int AttributeEvaluationFailed = 5
+  const public int GrantNotActive = 4
+  const public int NoAssignments = 0
+  const public int NoMatchingPermission = 1
+  const public int ScopeMismatch = 2
+
+static class RealTree.Authzn.Engine
+  method public static Task<Microsoft.FSharp.Collections.FSharpList<T>> filterAsync<T>(RealTree.Authzn.AuthorizationEngine engine, CancellationToken cancellationToken, RealTree.Authzn.PrincipalId principal, RealTree.Authzn.PermissionId permission, IEnumerable<T> candidates, Microsoft.FSharp.Core.FSharpFunc<T, Microsoft.FSharp.Collections.FSharpMap<string, string>> scopeOf, Microsoft.FSharp.Core.FSharpFunc<T, Microsoft.FSharp.Collections.FSharpMap<string, object>> attributesOf)
+  method public static Task<Microsoft.FSharp.Collections.FSharpMap<RealTree.Authzn.PermissionId, Microsoft.FSharp.Collections.FSharpList<RealTree.Authzn.GrantSource>>> grantsAmongAsync(RealTree.Authzn.AuthorizationEngine engine, CancellationToken cancellationToken, RealTree.Authzn.PrincipalId principal, IEnumerable<RealTree.Authzn.PermissionId> candidates, Microsoft.FSharp.Collections.FSharpMap<string, string> scope, Microsoft.FSharp.Collections.FSharpMap<string, object> attributes)
+  method public static Task<Microsoft.FSharp.Collections.FSharpSet<RealTree.Authzn.PermissionId>> allowedAmongAsync(RealTree.Authzn.AuthorizationEngine engine, CancellationToken cancellationToken, RealTree.Authzn.PrincipalId principal, IEnumerable<RealTree.Authzn.PermissionId> candidates, Microsoft.FSharp.Collections.FSharpMap<string, string> scope, Microsoft.FSharp.Collections.FSharpMap<string, object> attributes)
+  method public static Task<RealTree.Authzn.AuthorizationDecision> evaluateAsync(RealTree.Authzn.AuthorizationEngine engine, CancellationToken cancellationToken, RealTree.Authzn.AuthorizationRequest request)
+  method public static Task<RealTree.Authzn.ScopeConstraint> visibleScopeAsync(RealTree.Authzn.AuthorizationEngine engine, CancellationToken cancellationToken, RealTree.Authzn.PrincipalId principal, RealTree.Authzn.PermissionId permission, Microsoft.FSharp.Collections.FSharpMap<string, string> partialScope)
+  method public static Task<bool> mayAnyAsync(RealTree.Authzn.AuthorizationEngine engine, CancellationToken cancellationToken, RealTree.Authzn.PrincipalId principal, RealTree.Authzn.PermissionId permission, Microsoft.FSharp.Collections.FSharpMap<string, string> partialScope)
+
+sealed class RealTree.Authzn.GrantKey : IComparable, IComparable<RealTree.Authzn.GrantKey>, IEquatable<RealTree.Authzn.GrantKey>, IStructuralComparable, IStructuralEquatable
+  property public int Tag { get; }
+  property public string Item { get; }
+  property public string Value { get; }
+  method public bool Equals(RealTree.Authzn.GrantKey obj)
+  method public bool Equals(RealTree.Authzn.GrantKey obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.GrantKey obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.GrantKey NewGrantKey(string item)
+
+static class RealTree.Authzn.GrantKeyModule
+  method public static RealTree.Authzn.GrantKey create(string value)
+  method public static RealTree.Authzn.GrantKey forGrant(RealTree.Authzn.PermissionGrant grant)
+  method public static string value(RealTree.Authzn.GrantKey key)
+
+sealed class RealTree.Authzn.GrantMetadata : IComparable, IComparable<RealTree.Authzn.GrantMetadata>, IEquatable<RealTree.Authzn.GrantMetadata>, IStructuralComparable, IStructuralEquatable
+  ctor public(Microsoft.FSharp.Core.FSharpOption<string> source, Microsoft.FSharp.Core.FSharpOption<string> reason, Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.PrincipalId> consentedBy, Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> consentedAt, Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> expiresAt, Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> revokedAt, Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.PrincipalId> revokedBy)
+  property public Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> ConsentedAt { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> ExpiresAt { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<DateTimeOffset> RevokedAt { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.PrincipalId> ConsentedBy { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.PrincipalId> RevokedBy { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<string> Reason { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<string> Source { get; }
+  method public bool Equals(RealTree.Authzn.GrantMetadata obj)
+  method public bool Equals(RealTree.Authzn.GrantMetadata obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.GrantMetadata obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.GrantMetadataModule
+  property public static RealTree.Authzn.GrantMetadata empty { get; }
+  method public static bool isActiveAt(DateTimeOffset now, RealTree.Authzn.GrantMetadata metadata)
+
+class RealTree.Authzn.GrantPolicyChain : RealTree.Authzn.IGrantPolicyChain
+  ctor public(IEnumerable<RealTree.Authzn.IGrantPolicy> policies)
+
+sealed class RealTree.Authzn.GrantPolicyContext
+  ctor public(RealTree.Authzn.PrincipalId principal, RealTree.Authzn.RoleId role, RealTree.Authzn.PermissionGrant grant, Microsoft.FSharp.Collections.FSharpMap<string, string> properties)
+  property public Microsoft.FSharp.Collections.FSharpMap<string, string> Properties { get; }
+  property public RealTree.Authzn.PermissionGrant Grant { get; }
+  property public RealTree.Authzn.PrincipalId Principal { get; }
+  property public RealTree.Authzn.RoleId Role { get; }
+  method public override string ToString()
+
+abstract class RealTree.Authzn.GrantPolicyDecision : IComparable, IComparable<RealTree.Authzn.GrantPolicyDecision>, IEquatable<RealTree.Authzn.GrantPolicyDecision>, IStructuralComparable, IStructuralEquatable
+  property public bool IsAllow { get; }
+  property public bool IsReject { get; }
+  property public bool IsRequireConsent { get; }
+  property public int Tag { get; }
+  property public static RealTree.Authzn.GrantPolicyDecision Allow { get; }
+  method public bool Equals(RealTree.Authzn.GrantPolicyDecision obj)
+  method public bool Equals(RealTree.Authzn.GrantPolicyDecision obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.GrantPolicyDecision obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.GrantPolicyDecision NewReject(string reason, string code)
+  method public static RealTree.Authzn.GrantPolicyDecision NewRequireConsent(string reason, string tier)
+
+class RealTree.Authzn.GrantPolicyDecision.Reject : RealTree.Authzn.GrantPolicyDecision, IComparable, IComparable<RealTree.Authzn.GrantPolicyDecision>, IEquatable<RealTree.Authzn.GrantPolicyDecision>, IStructuralComparable, IStructuralEquatable
+  property public string Code { get; }
+  property public string Reason { get; }
+
+class RealTree.Authzn.GrantPolicyDecision.RequireConsent : RealTree.Authzn.GrantPolicyDecision, IComparable, IComparable<RealTree.Authzn.GrantPolicyDecision>, IEquatable<RealTree.Authzn.GrantPolicyDecision>, IStructuralComparable, IStructuralEquatable
+  property public string Reason { get; }
+  property public string Tier { get; }
+
+static class RealTree.Authzn.GrantPolicyDecision.Tags
+  const public int Allow = 0
+  const public int Reject = 1
+  const public int RequireConsent = 2
+
+sealed class RealTree.Authzn.GrantSource
+  ctor public(RealTree.Authzn.RoleId role, RealTree.Authzn.PermissionGrant grant)
+  property public RealTree.Authzn.PermissionGrant Grant { get; }
+  property public RealTree.Authzn.RoleId Role { get; }
+  method public override string ToString()
+
+interface RealTree.Authzn.IAssignmentStore
+  method public Task<Microsoft.FSharp.Collections.FSharpList<RealTree.Authzn.Assignment>> GetAssignmentsForPrincipalAsync(RealTree.Authzn.PrincipalId principal, CancellationToken cancellationToken)
+
+interface RealTree.Authzn.IGrantPolicy
+  method public Task<RealTree.Authzn.GrantPolicyDecision> EvaluateAsync(RealTree.Authzn.GrantPolicyContext context, CancellationToken cancellationToken)
+
+interface RealTree.Authzn.IGrantPolicyChain
+  method public Task<RealTree.Authzn.GrantPolicyDecision> EvaluateAsync(RealTree.Authzn.GrantPolicyContext context, CancellationToken cancellationToken)
+
+interface RealTree.Authzn.IGrantStore
+  method public Task ReinstateGrantAsync(RealTree.Authzn.RoleId roleId, RealTree.Authzn.GrantKey grantKey, CancellationToken cancellationToken)
+  method public Task RevokeGrantAsync(RealTree.Authzn.RoleId roleId, RealTree.Authzn.GrantKey grantKey, RealTree.Authzn.PrincipalId revokedBy, DateTimeOffset at, CancellationToken cancellationToken)
+
+interface RealTree.Authzn.IRoleStore
+  method public Task<Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.Role>> GetRoleAsync(RealTree.Authzn.RoleId id, CancellationToken cancellationToken)
+
+interface RealTree.Authzn.IScopeValueEnumerator
+  method public ValueTask<Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.ScopeValueSet>> EnumerateScopeAsync(RealTree.Authzn.PrincipalId principal, string scopeKey, RealTree.Authzn.MarkerName marker, CancellationToken cancellationToken)
+
+interface RealTree.Authzn.IScopeValueResolver
+  method public ValueTask<bool> AdmitsAsync(RealTree.Authzn.PrincipalId principal, string scopeKey, RealTree.Authzn.MarkerName marker, string requestValue, CancellationToken cancellationToken)
+
+class RealTree.Authzn.InMemoryAssignmentStore : RealTree.Authzn.IAssignmentStore
+  ctor public()
+  method public void Add(RealTree.Authzn.Assignment assignment)
+  method public void Revoke(RealTree.Authzn.PrincipalId principal, RealTree.Authzn.RoleId role)
+
+class RealTree.Authzn.InMemoryGrantStore : RealTree.Authzn.IGrantStore
+  ctor public(RealTree.Authzn.InMemoryRoleStore roleStore)
+
+class RealTree.Authzn.InMemoryRoleStore : RealTree.Authzn.IRoleStore
+  ctor public()
+  method public void Add(RealTree.Authzn.Role role)
+
+sealed class RealTree.Authzn.MarkerName : IComparable, IComparable<RealTree.Authzn.MarkerName>, IEquatable<RealTree.Authzn.MarkerName>, IStructuralComparable, IStructuralEquatable
+  property public string Value { get; }
+  method public bool Equals(RealTree.Authzn.MarkerName obj)
+  method public bool Equals(RealTree.Authzn.MarkerName obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.MarkerName obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.MarkerNameModule
+  method public static Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.MarkerName> tryCreate(string value)
+  method public static RealTree.Authzn.MarkerName create(string value)
+
+sealed class RealTree.Authzn.PermissionGrant
+  ctor public(RealTree.Authzn.PermissionPattern permission, Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValue> scope, Microsoft.FSharp.Core.FSharpOption<Microsoft.FSharp.Core.FSharpFunc<Microsoft.FSharp.Collections.FSharpMap<string, object>, bool>> condition, RealTree.Authzn.GrantMetadata metadata)
+  property public Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValue> Scope { get; }
+  property public Microsoft.FSharp.Core.FSharpOption<Microsoft.FSharp.Core.FSharpFunc<Microsoft.FSharp.Collections.FSharpMap<string, object>, bool>> Condition { get; }
+  property public RealTree.Authzn.GrantMetadata Metadata { get; }
+  property public RealTree.Authzn.PermissionPattern Permission { get; }
+  method public override string ToString()
+
+sealed class RealTree.Authzn.PermissionId : IComparable, IComparable<RealTree.Authzn.PermissionId>, IEquatable<RealTree.Authzn.PermissionId>, IStructuralComparable, IStructuralEquatable
+  ctor public(RealTree.Authzn.ResourceName resource, RealTree.Authzn.ActionName action)
+  property public RealTree.Authzn.ActionName Action { get; }
+  property public RealTree.Authzn.ResourceName Resource { get; }
+  method public bool Equals(RealTree.Authzn.PermissionId obj)
+  method public bool Equals(RealTree.Authzn.PermissionId obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.PermissionId obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.PermissionIdModule
+  method public static Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.PermissionId> tryParse(string text)
+  method public static RealTree.Authzn.PermissionId create(string resource, string action)
+  method public static RealTree.Authzn.PermissionId parse(string text)
+  method public static string format(RealTree.Authzn.PermissionId permission)
+
+sealed class RealTree.Authzn.PermissionPattern : IComparable, IComparable<RealTree.Authzn.PermissionPattern>, IEquatable<RealTree.Authzn.PermissionPattern>, IStructuralComparable, IStructuralEquatable
+  ctor public(RealTree.Authzn.Segment<RealTree.Authzn.ResourceName> resource, RealTree.Authzn.Segment<RealTree.Authzn.ActionName> action)
+  property public RealTree.Authzn.Segment<RealTree.Authzn.ActionName> Action { get; }
+  property public RealTree.Authzn.Segment<RealTree.Authzn.ResourceName> Resource { get; }
+  method public bool Equals(RealTree.Authzn.PermissionPattern obj)
+  method public bool Equals(RealTree.Authzn.PermissionPattern obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.PermissionPattern obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.PermissionPatternModule
+  const public string Wildcard = "*"
+  property public static RealTree.Authzn.PermissionPattern everything { get; }
+  method public static Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.PermissionPattern> tryParse(string text)
+  method public static RealTree.Authzn.PermissionPattern exactly(RealTree.Authzn.PermissionId permission)
+  method public static RealTree.Authzn.PermissionPattern parse(string text)
+  method public static bool covers(RealTree.Authzn.PermissionId permission, RealTree.Authzn.PermissionPattern pattern)
+  method public static bool isWildcard(RealTree.Authzn.PermissionPattern pattern)
+  method public static string format(RealTree.Authzn.PermissionPattern pattern)
+
+sealed class RealTree.Authzn.PrincipalId : IComparable, IComparable<RealTree.Authzn.PrincipalId>, IEquatable<RealTree.Authzn.PrincipalId>, IStructuralComparable, IStructuralEquatable
+  property public int Tag { get; }
+  property public string Item { get; }
+  property public string Value { get; }
+  method public bool Equals(RealTree.Authzn.PrincipalId obj)
+  method public bool Equals(RealTree.Authzn.PrincipalId obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.PrincipalId obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.PrincipalId NewPrincipalId(string item)
+
+static class RealTree.Authzn.PrincipalIdModule
+  method public static RealTree.Authzn.PrincipalId create(string value)
+  method public static string value(RealTree.Authzn.PrincipalId principal)
+
+sealed class RealTree.Authzn.ResourceName : IComparable, IComparable<RealTree.Authzn.ResourceName>, IEquatable<RealTree.Authzn.ResourceName>, IStructuralComparable, IStructuralEquatable
+  property public string Value { get; }
+  method public bool Equals(RealTree.Authzn.ResourceName obj)
+  method public bool Equals(RealTree.Authzn.ResourceName obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.ResourceName obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+
+static class RealTree.Authzn.ResourceNameModule
+  method public static Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.ResourceName> tryCreate(string value)
+  method public static RealTree.Authzn.ResourceName create(string value)
+
+sealed class RealTree.Authzn.Role
+  ctor public(RealTree.Authzn.RoleId id, string name, Microsoft.FSharp.Collections.FSharpList<RealTree.Authzn.PermissionGrant> grants)
+  property public Microsoft.FSharp.Collections.FSharpList<RealTree.Authzn.PermissionGrant> Grants { get; }
+  property public RealTree.Authzn.RoleId Id { get; }
+  property public string Name { get; }
+  method public override string ToString()
+
+static class RealTree.Authzn.RoleBuilder
+  method public static RealTree.Authzn.Role build(RealTree.Authzn.RoleBuilder.State state)
+  method public static RealTree.Authzn.RoleBuilder.State create(string id, string name)
+  method public static RealTree.Authzn.RoleBuilder.State grant(string permission, Microsoft.FSharp.Core.FSharpOption<Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValue>> scope, Microsoft.FSharp.Core.FSharpOption<Microsoft.FSharp.Core.FSharpFunc<Microsoft.FSharp.Collections.FSharpMap<string, object>, bool>> condition, RealTree.Authzn.RoleBuilder.State state)
+  method public static RealTree.Authzn.RoleBuilder.State grantEverywhere(string permission, RealTree.Authzn.RoleBuilder.State state)
+  method public static RealTree.Authzn.RoleBuilder.State grantEverywhereWith(string permission, RealTree.Authzn.GrantMetadata metadata, RealTree.Authzn.RoleBuilder.State state)
+  method public static RealTree.Authzn.RoleBuilder.State grantWith(string permission, Microsoft.FSharp.Core.FSharpOption<Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValue>> scope, Microsoft.FSharp.Core.FSharpOption<Microsoft.FSharp.Core.FSharpFunc<Microsoft.FSharp.Collections.FSharpMap<string, object>, bool>> condition, RealTree.Authzn.GrantMetadata metadata, RealTree.Authzn.RoleBuilder.State state)
+
+sealed class RealTree.Authzn.RoleBuilder.State
+  method public override string ToString()
+
+sealed class RealTree.Authzn.RoleId : IComparable, IComparable<RealTree.Authzn.RoleId>, IEquatable<RealTree.Authzn.RoleId>, IStructuralComparable, IStructuralEquatable
+  property public int Tag { get; }
+  property public string Item { get; }
+  property public string Value { get; }
+  method public bool Equals(RealTree.Authzn.RoleId obj)
+  method public bool Equals(RealTree.Authzn.RoleId obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.RoleId obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.RoleId NewRoleId(string item)
+
+static class RealTree.Authzn.RoleIdModule
+  method public static RealTree.Authzn.RoleId create(string value)
+  method public static string value(RealTree.Authzn.RoleId role)
+
+static class RealTree.Authzn.RoleModule
+  method public static void validate(RealTree.Authzn.Role role)
+
+abstract class RealTree.Authzn.ScopeConstraint : IComparable, IComparable<RealTree.Authzn.ScopeConstraint>, IEquatable<RealTree.Authzn.ScopeConstraint>, IStructuralComparable, IStructuralEquatable
+  property public bool IsEverything { get; }
+  property public bool IsNothing { get; }
+  property public bool IsRestricted { get; }
+  property public int Tag { get; }
+  property public static RealTree.Authzn.ScopeConstraint Everything { get; }
+  property public static RealTree.Authzn.ScopeConstraint Nothing { get; }
+  method public bool Equals(RealTree.Authzn.ScopeConstraint obj)
+  method public bool Equals(RealTree.Authzn.ScopeConstraint obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.ScopeConstraint obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.ScopeConstraint NewRestricted(Microsoft.FSharp.Collections.FSharpList<Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValueSet>> item)
+
+class RealTree.Authzn.ScopeConstraint.Restricted : RealTree.Authzn.ScopeConstraint, IComparable, IComparable<RealTree.Authzn.ScopeConstraint>, IEquatable<RealTree.Authzn.ScopeConstraint>, IStructuralComparable, IStructuralEquatable
+  property public Microsoft.FSharp.Collections.FSharpList<Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValueSet>> Item { get; }
+
+static class RealTree.Authzn.ScopeConstraint.Tags
+  const public int Everything = 0
+  const public int Nothing = 1
+  const public int Restricted = 2
+
+static class RealTree.Authzn.ScopeMarkers
+  const public string Hierarchy = "hierarchy"
+  const public string Principal = "principal"
+
+abstract class RealTree.Authzn.ScopeValue : IComparable, IComparable<RealTree.Authzn.ScopeValue>, IEquatable<RealTree.Authzn.ScopeValue>, IStructuralComparable, IStructuralEquatable
+  property public bool IsLiteral { get; }
+  property public bool IsMarker { get; }
+  property public int Tag { get; }
+  method public bool Equals(RealTree.Authzn.ScopeValue obj)
+  method public bool Equals(RealTree.Authzn.ScopeValue obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.ScopeValue obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.ScopeValue NewLiteral(string item)
+  method public static RealTree.Authzn.ScopeValue NewMarker(RealTree.Authzn.MarkerName item)
+
+class RealTree.Authzn.ScopeValue.Literal : RealTree.Authzn.ScopeValue, IComparable, IComparable<RealTree.Authzn.ScopeValue>, IEquatable<RealTree.Authzn.ScopeValue>, IStructuralComparable, IStructuralEquatable
+  property public string Item { get; }
+
+class RealTree.Authzn.ScopeValue.Marker : RealTree.Authzn.ScopeValue, IComparable, IComparable<RealTree.Authzn.ScopeValue>, IEquatable<RealTree.Authzn.ScopeValue>, IStructuralComparable, IStructuralEquatable
+  property public RealTree.Authzn.MarkerName Item { get; }
+
+static class RealTree.Authzn.ScopeValue.Tags
+  const public int Literal = 0
+  const public int Marker = 1
+
+static class RealTree.Authzn.ScopeValueModule
+  const public string MarkerPrefix = "@"
+  property public static RealTree.Authzn.ScopeValue hierarchy { get; }
+  property public static RealTree.Authzn.ScopeValue principal { get; }
+  method public static Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValue> parseScope(Microsoft.FSharp.Collections.FSharpMap<string, string> scope)
+  method public static Microsoft.FSharp.Collections.FSharpMap<string, string> formatScope(Microsoft.FSharp.Collections.FSharpMap<string, RealTree.Authzn.ScopeValue> scope)
+  method public static Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.ScopeValue> tryParse(string text)
+  method public static RealTree.Authzn.ScopeValue marker(string name)
+  method public static RealTree.Authzn.ScopeValue parse(string text)
+  method public static string format(RealTree.Authzn.ScopeValue value)
+
+abstract class RealTree.Authzn.ScopeValueSet : IComparable, IComparable<RealTree.Authzn.ScopeValueSet>, IEquatable<RealTree.Authzn.ScopeValueSet>, IStructuralComparable, IStructuralEquatable
+  property public bool IsAnyValue { get; }
+  property public bool IsValues { get; }
+  property public int Tag { get; }
+  property public static RealTree.Authzn.ScopeValueSet AnyValue { get; }
+  method public bool Equals(RealTree.Authzn.ScopeValueSet obj)
+  method public bool Equals(RealTree.Authzn.ScopeValueSet obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.ScopeValueSet obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.ScopeValueSet NewValues(Microsoft.FSharp.Collections.FSharpSet<string> item)
+
+static class RealTree.Authzn.ScopeValueSet.Tags
+  const public int AnyValue = 0
+  const public int Values = 1
+
+class RealTree.Authzn.ScopeValueSet.Values : RealTree.Authzn.ScopeValueSet, IComparable, IComparable<RealTree.Authzn.ScopeValueSet>, IEquatable<RealTree.Authzn.ScopeValueSet>, IStructuralComparable, IStructuralEquatable
+  property public Microsoft.FSharp.Collections.FSharpSet<string> Item { get; }
+
+static class RealTree.Authzn.Segment
+  method public static bool isAny<Name>(RealTree.Authzn.Segment<Name> segment)
+
+abstract class RealTree.Authzn.Segment<Name> : IComparable, IComparable<RealTree.Authzn.Segment<Name>>, IEquatable<RealTree.Authzn.Segment<Name>>, IStructuralComparable, IStructuralEquatable
+  property public bool IsAny { get; }
+  property public bool IsExactly { get; }
+  property public int Tag { get; }
+  property public static RealTree.Authzn.Segment<Name> Any { get; }
+  method public bool Equals(RealTree.Authzn.Segment<Name> obj)
+  method public bool Equals(RealTree.Authzn.Segment<Name> obj, IEqualityComparer comp)
+  method public bool Equals(object obj, IEqualityComparer comp)
+  method public int CompareTo(RealTree.Authzn.Segment<Name> obj)
+  method public int CompareTo(object obj)
+  method public int CompareTo(object obj, IComparer comp)
+  method public int GetHashCode(IEqualityComparer comp)
+  method public override string ToString()
+  method public sealed override bool Equals(object obj)
+  method public sealed override int GetHashCode()
+  method public static RealTree.Authzn.Segment<Name> NewExactly(Name item)
+
+class RealTree.Authzn.Segment<Name>.Exactly : RealTree.Authzn.Segment<Name>, IComparable, IComparable<RealTree.Authzn.Segment<Name>>, IEquatable<RealTree.Authzn.Segment<Name>>, IStructuralComparable, IStructuralEquatable
+  property public Name Item { get; }
+
+static class RealTree.Authzn.Segment<Name>.Tags
+  const public int Any = 0
+  const public int Exactly = 1
+
+static class RealTree.Authzn.ServiceCollectionExtensions
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Microsoft.FSharp.Core.FSharpFunc<RealTree.Authzn.AuthorizationConfig, RealTree.Authzn.AuthorizationConfig> configure)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddAuthzn(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, RealTree.Authzn.IRoleStore roleStore, RealTree.Authzn.IAssignmentStore assignmentStore, Microsoft.FSharp.Core.FSharpOption<RealTree.Authzn.IScopeValueResolver> scopeResolver)
+  method public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddGrantPolicy<T>(this Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+

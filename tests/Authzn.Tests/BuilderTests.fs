@@ -1,8 +1,8 @@
-module Authzn.Tests.BuilderTests
+module RealTree.Authzn.Tests.BuilderTests
 
 open System.Threading
 open Xunit
-open Authzn
+open RealTree.Authzn
 
 [<Fact>]
 let ``RoleBuilder creates role with grants`` () =

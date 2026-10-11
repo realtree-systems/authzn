@@ -1,6 +1,6 @@
-// Installs Authzn from the packed package and checks one allowed and one denied decision.
+// Installs RealTree.Authzn from the packed package and checks one allowed and one denied decision.
 open System.Threading
-open Authzn
+open RealTree.Authzn
 
 [<EntryPoint>]
 let main _ =
@@ -23,8 +23,8 @@ let main _ =
 
     match decide "acme", decide "globex" with
     | Allowed _, Denied DenyReason.ScopeMismatch ->
-        printfn "Authzn smoke test passed"
+        printfn "RealTree.Authzn smoke test passed"
         0
     | inTenant, otherTenant ->
-        eprintfn "Authzn smoke test failed: acme -> %A, globex -> %A" inTenant otherTenant
+        eprintfn "RealTree.Authzn smoke test failed: acme -> %A, globex -> %A" inTenant otherTenant
         1

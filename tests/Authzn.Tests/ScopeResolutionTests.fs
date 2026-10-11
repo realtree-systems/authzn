@@ -1,9 +1,9 @@
-module Authzn.Tests.ScopeResolutionTests
+module RealTree.Authzn.Tests.ScopeResolutionTests
 
 open System.Threading
 open Xunit
-open Authzn
-open Authzn.Tests.Helpers
+open RealTree.Authzn
+open RealTree.Authzn.Tests.Helpers
 
 [<Fact>]
 let ``hierarchy marker allows when resolver confirms membership`` () =

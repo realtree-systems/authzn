@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// A request to evaluate: can <see cref="Principal"/> perform <see cref="Permission"/> in

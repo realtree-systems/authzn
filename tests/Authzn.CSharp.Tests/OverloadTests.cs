@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Authzn.CSharp;
+using RealTree.Authzn.CSharp;
 using Xunit;
 
-namespace Authzn.CSharp.Tests;
+namespace RealTree.Authzn.CSharp.Tests;
 
 /// <summary>
 /// Calls every <c>Grant</c>, <c>GrantIf</c>, <c>GrantEverywhere</c> and <c>AuthorizeAsync</c>

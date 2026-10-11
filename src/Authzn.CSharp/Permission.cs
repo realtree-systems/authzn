@@ -1,9 +1,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.FSharp.Core;
-using Fs = Authzn;
+using Fs = RealTree.Authzn;
 
-namespace Authzn.CSharp;
+namespace RealTree.Authzn.CSharp;
 
 /// <summary>
 /// A permission a request asks for: a concrete resource and action, written <c>resource:action</c>
@@ -177,6 +177,6 @@ public abstract record PermissionSegment
     {
         { IsAny: true } => new Any(),
         Fs.Segment<TName>.Exactly exactly => new Exactly(name(exactly.Item)),
-        _ => throw new InvalidOperationException($"Unmapped Authzn.Segment case '{segment}'."),
+        _ => throw new InvalidOperationException($"Unmapped RealTree.Authzn.Segment case '{segment}'."),
     };
 }
